@@ -9,21 +9,33 @@ export const TOPIC_ACCENT = {
 export const LANGUAGES = [
   { code: 'es', label: 'Español' },
   { code: 'en', label: 'English' },
-  { code: 'ca', label: 'Català' },
 ]
 
 export const LANGUAGE_NAME = {
   es: 'Spanish',
   en: 'English',
-  ca: 'Catalan',
 }
 
+// All terms are matched as word-boundary prefixes (porn → pornography, sex → sexual, etc.)
 export const BLOCKED_WORDS = [
-  'sex', 'sexo', 'porn', 'porno', 'pornography', 'pornografía',
-  'xxx', 'nude', 'desnudo', 'erotic', 'erótico', 'erotic',
-  'hentai', 'nsfw', 'fuck', 'shit', 'bitch', 'pussy', 'cock',
-  'dick', 'penis', 'vagina', 'ass', 'anal', 'oral', 'fetish',
-  'fetiche', 'rape', 'violación', 'incest', 'incesto',
+  // English
+  'sex', 'porn', 'xxx', 'nude', 'naked', 'nudity', 'erotic', 'hentai',
+  'nsfw', 'fuck', 'shit', 'bitch', 'pussy', 'cock', 'dick', 'penis',
+  'vagina', 'vulva', 'ass', 'anal', 'fetish', 'rape', 'incest',
+  'masturbat', 'orgasm', 'ejaculat', 'cum', 'boob', 'tit', 'nipple',
+  'clitoris', 'clit', 'dildo', 'vibrator', 'prostitut', 'whore',
+  'slut', 'horny', 'kinky', 'bondage', 'bdsm', 'blowjob', 'handjob',
+  'rimjob', 'rimming', 'sexting', 'stripper', 'onlyfans', 'camgirl',
+  'threesome', 'foursome', 'gangbang', 'creampie', 'squirt', 'milf',
+  'groping', 'molest', 'pervert', 'predator',
+  // Spanish
+  'sexo', 'follar', 'joder', 'coño', 'polla', 'pene', 'vagina', 'vulva',
+  'culo', 'fetiche', 'violaci', 'incesto', 'masturb', 'orgasmo',
+  'eyaculaci', 'correrse', 'tetas', 'pezón', 'clítoris', 'clitoris',
+  'dildo', 'vibrador', 'prostitut', 'puta', 'zorra', 'guarra', 'perra',
+  'caliente', 'bondage', 'bdsm', 'mamada', 'pajear', 'sexting',
+  'desnud', 'erótic', 'pornografi', 'putón', 'furcia', 'travesti',
+  'escort', 'prepago', 'lencería', 'porno',
 ]
 
 export const SYSTEM_PROMPT = `You are an expert art historian and museum guide.

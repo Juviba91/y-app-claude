@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { Analytics, track } from '@vercel/analytics/react'
+import { LanguageContext } from './contexts/language'
+import { t } from './utils/i18n'
 import { getHistory, addToHistory, clearHistory } from './utils/history'
 import { isBlocked } from './utils/filter'
 import TabBar from './components/TabBar'
@@ -51,7 +53,7 @@ export default function App() {
     else setNavStack(prev => prev.slice(0, -1))
   }
 
-  // Bug fix: only reset to home when already on the search tab
+  // Only reset to home when already on the search tab
   const handleTab = (t) => {
     track('tab_change', { tab: t })
     setTab(t)
@@ -75,68 +77,69 @@ export default function App() {
   const activeTab = screen === 'sentences' ? 'search' : tab
 
   return (
-    <div style={{ minHeight: '100vh', background: '#F8F6F1', display: 'flex', flexDirection: 'column' }}>
-      <Analytics />
+    <LanguageContext.Provider value={language}>
+      <div style={{ minHeight: '100vh', background: '#F8F6F1', display: 'flex', flexDirection: 'column' }}>
+        <Analytics />
 
-      {/* Blocked word toast */}
-      {blockedMsg && (
+        {/* Blocked word toast */}
+        {blockedMsg && (
+          <div style={{
+            position: 'fixed', top: '20px', left: '50%', transform: 'translateX(-50%)',
+            background: '#1C1A18', color: '#fff', borderRadius: '14px',
+            padding: '12px 20px', zIndex: 999, fontSize: '14px',
+            fontFamily: '-apple-system, sans-serif', fontWeight: '500',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+            animation: 'fadeUp 0.3s ease', whiteSpace: 'nowrap',
+          }}>
+            {t(language, 'blockedMsg')}
+          </div>
+        )}
+
         <div style={{
-          position: 'fixed', top: '20px', left: '50%', transform: 'translateX(-50%)',
-          background: '#1C1A18', color: '#fff', borderRadius: '14px',
-          padding: '12px 20px', zIndex: 999, fontSize: '14px',
-          fontFamily: '-apple-system, sans-serif', fontWeight: '500',
-          boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
-          animation: 'fadeUp 0.3s ease',
-          whiteSpace: 'nowrap',
+          flex: 1, maxWidth: '680px', width: '100%', margin: '0 auto',
+          paddingBottom: '90px', display: 'flex', flexDirection: 'column',
         }}>
-          🚫 Contenido no permitido
+
+          {tab === 'search' && screen === 'home' && (
+            <HomeScreen
+              topic={topic} setTopic={handleSetTopic}
+              onSearch={goToWord}
+              history={history} onHistoryWord={(w) => goToWord(w, 'history')}
+            />
+          )}
+
+          {tab === 'search' && screen === 'sentences' && currentNav && (
+            <SentencesScreen
+              key={currentNav.subject + topic + language}
+              subject={currentNav.subject}
+              word={currentNav.word}
+              topic={topic}
+              language={language}
+              trail={trail}
+              onBack={goBack}
+              onTapSentence={goDeeper}
+              isSentence={currentNav.type === 'sentence'}
+            />
+          )}
+
+          {tab === 'scan' && (
+            <ScanScreen onScan={(w) => goToWord(w, 'qr_scan')} />
+          )}
+
+          {tab === 'settings' && (
+            <SettingsScreen
+              topic={topic} setTopic={handleSetTopic}
+              language={language} setLanguage={handleSetLanguage}
+              history={history}
+              onClearHistory={() => { clearHistory(); setHistory([]) }}
+              onSelectArtwork={(w) => goToWord(w, 'collection')}
+            />
+          )}
+
         </div>
-      )}
 
-      <div style={{
-        flex: 1, maxWidth: '680px', width: '100%', margin: '0 auto',
-        paddingBottom: '90px', display: 'flex', flexDirection: 'column',
-      }}>
-
-        {tab === 'search' && screen === 'home' && (
-          <HomeScreen
-            topic={topic} setTopic={handleSetTopic}
-            onSearch={goToWord}
-            history={history} onHistoryWord={(w) => goToWord(w, 'history')}
-          />
-        )}
-
-        {tab === 'search' && screen === 'sentences' && currentNav && (
-          <SentencesScreen
-            key={currentNav.subject + topic + language}
-            subject={currentNav.subject}
-            word={currentNav.word}
-            topic={topic}
-            language={language}
-            trail={trail}
-            onBack={goBack}
-            onTapSentence={goDeeper}
-            isSentence={currentNav.type === 'sentence'}
-          />
-        )}
-
-        {tab === 'scan' && (
-          <ScanScreen onScan={(w) => goToWord(w, 'qr_scan')} />
-        )}
-
-        {tab === 'settings' && (
-          <SettingsScreen
-            topic={topic} setTopic={handleSetTopic}
-            language={language} setLanguage={handleSetLanguage}
-            history={history}
-            onClearHistory={() => { clearHistory(); setHistory([]) }}
-            onSelectArtwork={(w) => goToWord(w, 'collection')}
-          />
-        )}
-
+        <TabBar activeTab={activeTab} onTab={handleTab} />
       </div>
-
-      <TabBar activeTab={activeTab} onTab={handleTab} />
-    </div>
+    </LanguageContext.Provider>
   )
 }

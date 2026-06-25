@@ -4,6 +4,8 @@ import { callClaude, buildPrompt, parseSentences } from '../api/claude'
 import { addToCollection, removeFromCollection, isInCollection } from '../utils/collection'
 import { getCached, setCache } from '../utils/cache'
 import { track } from '@vercel/analytics/react'
+import { useLanguage } from '../contexts/language'
+import { t, topicLabel } from '../utils/i18n'
 import SentenceCard from '../components/SentenceCard'
 import SkeletonCards from '../components/SkeletonCards'
 import Breadcrumb from '../components/Breadcrumb'
@@ -14,6 +16,7 @@ export default function SentencesScreen({ subject, word, topic, language, trail,
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [saved, setSaved] = useState(false)
+  const lang = useLanguage()
   const accent = TOPIC_ACCENT[topic]
 
   useEffect(() => {
@@ -24,8 +27,8 @@ export default function SentencesScreen({ subject, word, topic, language, trail,
     let cancelled = false
     setLoading(true); setItems([]); setError(null)
 
-    // Cache key includes language so different languages are stored separately
-    const cached = getCached(subject, `${topic}_${language}`)
+    const cacheKey = `${topic}_${language}`
+    const cached = getCached(subject, cacheKey)
     if (cached) {
       const parsed = parseSentences(cached)
       if (parsed?.length > 0) { setItems(parsed); setLoading(false); return }
@@ -36,18 +39,14 @@ export default function SentencesScreen({ subject, word, topic, language, trail,
         if (cancelled) return
         const parsed = parseSentences(raw)
         if (parsed?.length > 0) {
-          setCache(subject, `${topic}_${language}`, raw)
+          setCache(subject, cacheKey, raw)
           setItems(parsed)
         } else {
-          setError('No se pudo generar la respuesta. Vuelve e inténtalo de nuevo.')
+          setError(t(lang, 'errorMsg'))
         }
       })
-      .catch(e => {
-        if (!cancelled) setError(e?.message || 'Algo salió mal.')
-      })
-      .finally(() => {
-        if (!cancelled) setLoading(false)
-      })
+      .catch(e => { if (!cancelled) setError(e?.message || t(lang, 'errorMsg')) })
+      .finally(() => { if (!cancelled) setLoading(false) })
 
     return () => { cancelled = true }
   }, [subject, topic, language])
@@ -72,14 +71,11 @@ export default function SentencesScreen({ subject, word, topic, language, trail,
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Breadcrumb trail={trail} topic={topic} onBack={onBack} />
           {!isSentence && (
-            <button
-              onClick={toggleSave}
-              style={{
-                background: 'none', border: 'none', cursor: 'pointer',
-                padding: '6px', borderRadius: '10px',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-              }}
-            >
+            <button onClick={toggleSave} style={{
+              background: 'none', border: 'none', cursor: 'pointer',
+              padding: '6px', borderRadius: '10px',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>
               <BookmarkIcon filled={saved} />
             </button>
           )}
@@ -88,10 +84,9 @@ export default function SentencesScreen({ subject, word, topic, language, trail,
         <div style={{ marginTop: '20px', marginBottom: '6px' }}>
           <span style={{
             fontFamily: '-apple-system, sans-serif', fontSize: '11px',
-            color: accent, fontWeight: '700',
-            textTransform: 'uppercase', letterSpacing: '1.5px',
+            color: accent, fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1.5px',
           }}>
-            {topic} · {isSentence ? 'Profundizar' : 'Vista general'}
+            {topicLabel(lang, topic)} · {isSentence ? t(lang, 'deepDive') : t(lang, 'overview')}
           </span>
         </div>
 
@@ -114,7 +109,7 @@ export default function SentencesScreen({ subject, word, topic, language, trail,
             fontFamily: '-apple-system, sans-serif', fontSize: '12px',
             color: '#A0A09A', paddingLeft: '17px', marginTop: '4px',
           }}>
-            Sobre: {word}
+            {t(lang, 'aboutLabel')} {word}
           </div>
         )}
 
