@@ -3,6 +3,7 @@ import { TOPIC_ACCENT } from '../constants'
 import { callClaude, buildPrompt, parseSentences } from '../api/claude'
 import { addToCollection, removeFromCollection, isInCollection } from '../utils/collection'
 import { getCached, setCache } from '../utils/cache'
+import { track } from '@vercel/analytics/react'
 import SentenceCard from '../components/SentenceCard'
 import SkeletonCards from '../components/SkeletonCards'
 import Breadcrumb from '../components/Breadcrumb'
@@ -54,9 +55,11 @@ export default function SentencesScreen({ subject, word, topic, trail, onBack, o
     if (saved) {
       removeFromCollection(word)
       setSaved(false)
+      track('artwork_unsaved', { artwork: word, topic })
     } else {
       addToCollection(word, topic)
       setSaved(true)
+      track('artwork_saved', { artwork: word, topic })
     }
   }
 
