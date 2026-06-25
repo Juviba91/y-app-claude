@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Analytics, track } from '@vercel/analytics/react'
 import { getHistory, addToHistory, clearHistory } from './utils/history'
 import TabBar from './components/TabBar'
 import HomeScreen from './screens/HomeScreen'
@@ -17,9 +18,10 @@ export default function App() {
   const trail      = navStack.map(n => n.label)
 
   // ─── NAVIGATION ─────────────────────────────────────────────────────────────
-  const goToWord = (word) => {
+  const goToWord = (word, source = 'search') => {
     const w = word.trim()
     if (!w) return
+    track('artwork_search', { artwork: w, topic, source })
     addToHistory(w)
     setHistory([...getHistory()])
     setNavStack([{ type: 'word', subject: w, word: w, label: w }])
@@ -29,6 +31,7 @@ export default function App() {
 
   const goDeeper = (sentence) => {
     const rootWord = navStack[0]?.word || ''
+    track('dive_deeper', { artwork: rootWord, topic })
     setNavStack(prev => [...prev, {
       type: 'sentence', subject: sentence, word: rootWord, label: sentence,
     }])
@@ -40,14 +43,21 @@ export default function App() {
   }
 
   const handleTab = (t) => {
+    track('tab_change', { tab: t })
     setTab(t)
     if (t === 'search') { setScreen('home'); setNavStack([]) }
+  }
+
+  const handleSetTopic = (t) => {
+    track('topic_change', { topic: t })
+    setTopic(t)
   }
 
   const activeTab = screen === 'sentences' ? 'search' : tab
 
   return (
     <div style={{ minHeight: '100vh', background: '#F8F6F1', display: 'flex', flexDirection: 'column' }}>
+      <Analytics />
       <div style={{
         flex: 1, maxWidth: '680px', width: '100%', margin: '0 auto',
         paddingBottom: '90px', display: 'flex', flexDirection: 'column',
@@ -55,9 +65,9 @@ export default function App() {
 
         {tab === 'search' && screen === 'home' && (
           <HomeScreen
-            topic={topic} setTopic={setTopic}
+            topic={topic} setTopic={handleSetTopic}
             onSearch={goToWord}
-            history={history} onHistoryWord={goToWord}
+            history={history} onHistoryWord={(w) => goToWord(w, 'history')}
           />
         )}
 
@@ -75,15 +85,15 @@ export default function App() {
         )}
 
         {tab === 'scan' && (
-          <ScanScreen onScan={goToWord} />
+          <ScanScreen onScan={(w) => goToWord(w, 'qr_scan')} />
         )}
 
         {tab === 'settings' && (
           <SettingsScreen
-            topic={topic} setTopic={setTopic}
+            topic={topic} setTopic={handleSetTopic}
             history={history}
             onClearHistory={() => { clearHistory(); setHistory([]) }}
-            onSelectArtwork={goToWord}
+            onSelectArtwork={(w) => goToWord(w, 'collection')}
           />
         )}
 
