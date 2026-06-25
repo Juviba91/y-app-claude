@@ -1,6 +1,4 @@
 import { useState } from 'react'
-import { TOPIC_ACCENT } from './constants'
-import { callClaude } from './api/claude'
 import { getHistory, addToHistory, clearHistory } from './utils/history'
 import TabBar from './components/TabBar'
 import HomeScreen from './screens/HomeScreen'

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { TOPIC_ACCENT } from '../constants'
 import { callClaude, buildPrompt, parseSentences } from '../api/claude'
 import { addToCollection, removeFromCollection, isInCollection } from '../utils/collection'
+import { getCached, setCache } from '../utils/cache'
 import SentenceCard from '../components/SentenceCard'
 import SkeletonCards from '../components/SkeletonCards'
 import Breadcrumb from '../components/Breadcrumb'
@@ -22,12 +23,22 @@ export default function SentencesScreen({ subject, word, topic, trail, onBack, o
     let cancelled = false
     setLoading(true); setItems([]); setError(null)
 
+    const cached = getCached(subject, topic)
+    if (cached) {
+      const parsed = parseSentences(cached)
+      if (parsed?.length > 0) { setItems(parsed); setLoading(false); return }
+    }
+
     callClaude(buildPrompt(subject, word, topic, isSentence))
       .then(raw => {
         if (cancelled) return
         const parsed = parseSentences(raw)
-        if (parsed?.length > 0) setItems(parsed)
-        else setError('No se pudo generar la respuesta. Vuelve e inténtalo de nuevo.')
+        if (parsed?.length > 0) {
+          setCache(subject, topic, raw)
+          setItems(parsed)
+        } else {
+          setError('No se pudo generar la respuesta. Vuelve e inténtalo de nuevo.')
+        }
       })
       .catch(e => {
         if (!cancelled) setError(e?.message || 'Algo salió mal.')
