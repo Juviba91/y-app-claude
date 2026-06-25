@@ -1,16 +1,27 @@
-let memHistory = []
+const KEY = 'artgallery_history'
+
+function load() {
+  try { return JSON.parse(localStorage.getItem(KEY) || '[]') }
+  catch { return [] }
+}
+
+function save(arr) {
+  localStorage.setItem(KEY, JSON.stringify(arr))
+}
 
 export function getHistory() {
-  return memHistory
+  return load()
 }
 
 export function addToHistory(word) {
-  memHistory = [
+  const arr = [
     word,
-    ...memHistory.filter(w => w.toLowerCase() !== word.toLowerCase()),
+    ...load().filter(w => w.toLowerCase() !== word.toLowerCase()),
   ].slice(0, 30)
+  save(arr)
+  return arr
 }
 
 export function clearHistory() {
-  memHistory = []
+  localStorage.removeItem(KEY)
 }

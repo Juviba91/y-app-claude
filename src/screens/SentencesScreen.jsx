@@ -1,29 +1,47 @@
 import { useState, useEffect } from 'react'
 import { TOPIC_ACCENT } from '../constants'
 import { callClaude, buildPrompt, parseSentences } from '../api/claude'
+import { addToCollection, removeFromCollection, isInCollection } from '../utils/collection'
+import { getCached, setCache } from '../utils/cache'
 import SentenceCard from '../components/SentenceCard'
 import SkeletonCards from '../components/SkeletonCards'
 import Breadcrumb from '../components/Breadcrumb'
+import { BookmarkIcon } from '../components/Icons'
 
 export default function SentencesScreen({ subject, word, topic, trail, onBack, onTapSentence, isSentence }) {
   const [items, setItems] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [saved, setSaved] = useState(false)
   const accent = TOPIC_ACCENT[topic]
+
+  useEffect(() => {
+    setSaved(isInCollection(word))
+  }, [word])
 
   useEffect(() => {
     let cancelled = false
     setLoading(true); setItems([]); setError(null)
 
+    const cached = getCached(subject, topic)
+    if (cached) {
+      const parsed = parseSentences(cached)
+      if (parsed?.length > 0) { setItems(parsed); setLoading(false); return }
+    }
+
     callClaude(buildPrompt(subject, word, topic, isSentence))
       .then(raw => {
         if (cancelled) return
         const parsed = parseSentences(raw)
-        if (parsed?.length > 0) setItems(parsed)
-        else setError('Could not parse response. Go back and try again.')
+        if (parsed?.length > 0) {
+          setCache(subject, topic, raw)
+          setItems(parsed)
+        } else {
+          setError('No se pudo generar la respuesta. Vuelve e inténtalo de nuevo.')
+        }
       })
       .catch(e => {
-        if (!cancelled) setError(e?.message || 'Something went wrong.')
+        if (!cancelled) setError(e?.message || 'Algo salió mal.')
       })
       .finally(() => {
         if (!cancelled) setLoading(false)
@@ -32,29 +50,53 @@ export default function SentencesScreen({ subject, word, topic, trail, onBack, o
     return () => { cancelled = true }
   }, [subject, topic])
 
+  const toggleSave = () => {
+    if (saved) {
+      removeFromCollection(word)
+      setSaved(false)
+    } else {
+      addToCollection(word, topic)
+      setSaved(true)
+    }
+  }
+
   const displaySubject = subject.length > 80 ? subject.slice(0, 80) + '…' : subject
 
   return (
     <div style={{ flex: 1 }}>
       <div style={{ padding: '16px 20px 0' }}>
-        <Breadcrumb trail={trail} topic={topic} onBack={onBack} />
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Breadcrumb trail={trail} topic={topic} onBack={onBack} />
+          {!isSentence && (
+            <button
+              onClick={toggleSave}
+              style={{
+                background: 'none', border: 'none', cursor: 'pointer',
+                padding: '6px', borderRadius: '10px',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}
+            >
+              <BookmarkIcon filled={saved} />
+            </button>
+          )}
+        </div>
 
         <div style={{ marginTop: '20px', marginBottom: '6px' }}>
           <span style={{
-            fontFamily: '-apple-system, sans-serif', fontSize: '12px',
-            color: accent, fontWeight: '600',
-            textTransform: 'uppercase', letterSpacing: '1px',
+            fontFamily: '-apple-system, sans-serif', fontSize: '11px',
+            color: accent, fontWeight: '700',
+            textTransform: 'uppercase', letterSpacing: '1.5px',
           }}>
-            {topic} · {isSentence ? 'Deeper Dive' : 'Overview'}
+            {topic} · {isSentence ? 'Profundizar' : 'Vista general'}
           </span>
         </div>
 
         <h2 style={{
-          fontSize: isSentence ? '18px' : '28px',
+          fontSize: isSentence ? '17px' : '26px',
           fontWeight: isSentence ? '400' : '700',
-          color: '#fff',
+          color: '#1C1A18',
           fontFamily: "-apple-system, 'Helvetica Neue', sans-serif",
-          lineHeight: isSentence ? '1.5' : '1.15',
+          lineHeight: isSentence ? '1.5' : '1.2',
           fontStyle: isSentence ? 'italic' : 'normal',
           borderLeft: isSentence ? `3px solid ${accent}` : 'none',
           paddingLeft: isSentence ? '14px' : '0',
@@ -66,9 +108,9 @@ export default function SentencesScreen({ subject, word, topic, trail, onBack, o
         {isSentence && word && (
           <div style={{
             fontFamily: '-apple-system, sans-serif', fontSize: '12px',
-            color: '#555', paddingLeft: '17px', marginTop: '4px',
+            color: '#A0A09A', paddingLeft: '17px', marginTop: '4px',
           }}>
-            About: {word}
+            Sobre: {word}
           </div>
         )}
 
@@ -79,8 +121,9 @@ export default function SentencesScreen({ subject, word, topic, trail, onBack, o
         {loading && <SkeletonCards />}
         {error && (
           <div style={{
-            background: '#1C1C1E', borderRadius: '20px', padding: '22px 24px',
-            color: '#FF6B6B', fontFamily: '-apple-system, sans-serif', fontSize: '14px',
+            background: '#FFF5F5', border: '1px solid #FFD5D5',
+            borderRadius: '16px', padding: '20px 22px',
+            color: '#C0392B', fontFamily: '-apple-system, sans-serif', fontSize: '14px',
           }}>
             {error}
           </div>

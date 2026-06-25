@@ -3,14 +3,14 @@ import { SYSTEM_PROMPT } from '../constants'
 // ─── PROMPT BUILDER ───────────────────────────────────────────────────────────
 export function buildPrompt(subject, word, topic, isSentence) {
   if (isSentence) {
-    return `Give exactly 15 concise facts expanding on: "${subject}"
-Original subject: "${word}". Lens: ${topic}.
+    return `Give exactly 15 concise art facts expanding on: "${subject}"
+Original artwork/artist: "${word}". Audience: ${topic}.
 Max 25 words per sentence. Dense facts only.
 Return ONLY a numbered list: 1. sentence ... 15. sentence`
   }
-  return `Give exactly 15 concise facts about "${subject}" from a ${topic} perspective.
+  return `Give exactly 15 concise facts about the artwork or artist "${subject}" from an art history perspective. Audience: ${topic}.
 Max 25 words per sentence. Punchy and precise.
-Cover origins, significance, impact, lesser-known facts.
+Cover origin, technique, style, historical context, influence, museum location.
 Return ONLY a numbered list: 1. sentence ... 15. sentence`
 }
 
@@ -28,7 +28,6 @@ export function parseSentences(text) {
     }
   }
 
-  // Fallback: split on sentence boundaries
   if (results.length < 3) {
     const sents = text
       .split(/(?<=[.!?])\s+/)
@@ -45,8 +44,6 @@ export function parseSentences(text) {
 export async function callClaude(prompt) {
   const fullPrompt = SYSTEM_PROMPT + '\n\n' + prompt
 
-  // Primary: Anthropic API via fetch
-  // Requires VITE_ANTHROPIC_API_KEY in .env
   const apiKey = import.meta.env.VITE_ANTHROPIC_API_KEY
 
   if (apiKey) {
@@ -60,7 +57,7 @@ export async function callClaude(prompt) {
           'anthropic-dangerous-direct-browser-access': 'true',
         },
         body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
+          model: 'claude-haiku-4-5-20251001',
           max_tokens: 1000,
           messages: [{ role: 'user', content: fullPrompt }],
         }),
@@ -76,7 +73,6 @@ export async function callClaude(prompt) {
     }
   }
 
-  // Fallback: window.claude.complete (Claude artifact environment)
   if (typeof window !== 'undefined' && window.claude?.complete) {
     const r = await window.claude.complete(fullPrompt)
     if (typeof r === 'string') return r

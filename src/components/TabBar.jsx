@@ -1,17 +1,17 @@
-import { SearchIcon, TrendingIcon, SettingsIcon } from './Icons'
+import { SearchIcon, ScanIcon, SettingsIcon } from './Icons'
 
 const TABS = [
-  { id: 'search',   label: 'Search',   Icon: SearchIcon },
-  { id: 'trending', label: 'Trending', Icon: TrendingIcon },
-  { id: 'settings', label: 'Settings', Icon: SettingsIcon },
+  { id: 'search',   label: 'Buscar',   Icon: SearchIcon },
+  { id: 'scan',     label: 'Escanear', Icon: ScanIcon },
+  { id: 'settings', label: 'Ajustes',  Icon: SettingsIcon },
 ]
 
 export default function TabBar({ activeTab, onTab }) {
   return (
     <div style={{
       position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 200,
-      background: '#111113f8', backdropFilter: 'blur(20px)',
-      borderTop: '1px solid #2C2C2E',
+      background: '#F8F6F1ee', backdropFilter: 'blur(20px)',
+      borderTop: '1px solid #E8E5DF',
       paddingBottom: 'env(safe-area-inset-bottom, 8px)',
     }}>
       <div style={{
@@ -34,7 +34,7 @@ export default function TabBar({ activeTab, onTab }) {
               <span style={{
                 fontFamily: '-apple-system, sans-serif',
                 fontSize: '10px',
-                color: active ? '#fff' : '#555',
+                color: active ? '#1C1A18' : '#A0A09A',
                 fontWeight: active ? '600' : '400',
               }}>
                 {label}

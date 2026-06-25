@@ -1,42 +1,51 @@
+import { useState } from 'react'
 import { TOPICS, TOPIC_ACCENT } from '../constants'
-import YLogo from '../components/YLogo'
+import { getCollection, removeFromCollection } from '../utils/collection'
 
-export default function SettingsScreen({ topic, setTopic, history, onClearHistory }) {
+export default function SettingsScreen({ topic, setTopic, history, onClearHistory, onSelectArtwork }) {
+  const [collection, setCollection] = useState(() => getCollection())
+
+  const removeItem = (name) => {
+    setCollection(removeFromCollection(name))
+  }
+
   return (
     <div style={{ flex: 1 }}>
-      <div style={{ padding: '40px 24px 24px', textAlign: 'center' }}>
+      <div style={{ padding: '48px 24px 24px' }}>
         <div style={{
           fontFamily: '-apple-system, sans-serif',
-          fontSize: '28px', color: '#fff', fontWeight: '700',
+          fontSize: '28px', color: '#1C1A18', fontWeight: '700',
         }}>
-          Settings
+          Ajustes
         </div>
       </div>
 
       <div style={{ padding: '0 20px' }}>
 
-        {/* Knowledge Lens */}
+        {/* Audience selector */}
         <div style={{
-          background: '#1C1C1E', borderRadius: '20px',
-          padding: '22px 24px', marginBottom: '12px',
+          background: '#FFFFFF', border: '1.5px solid #E8E5DF',
+          borderRadius: '20px', padding: '22px 24px', marginBottom: '12px',
         }}>
           <div style={{
-            fontFamily: '-apple-system, sans-serif', fontSize: '13px',
-            color: '#666', fontWeight: '600', marginBottom: '14px',
+            fontFamily: '-apple-system, sans-serif', fontSize: '11px',
+            color: '#A0A09A', fontWeight: '600', marginBottom: '14px',
             textTransform: 'uppercase', letterSpacing: '1px',
           }}>
-            Knowledge Lens
+            Objetivo
           </div>
           <div style={{ display: 'flex', gap: '8px' }}>
             {TOPICS.map(t => {
               const active = topic === t
               return (
                 <button key={t} onClick={() => setTopic(t)} style={{
-                  flex: 1, padding: '12px 0', borderRadius: '14px', border: 'none',
-                  background: active ? TOPIC_ACCENT[t] : '#2C2C2E',
-                  color: active ? '#fff' : '#888',
-                  fontFamily: '-apple-system, sans-serif', fontSize: '13px',
+                  flex: 1, padding: '12px 0', borderRadius: '14px',
+                  border: active ? 'none' : '1.5px solid #E8E5DF',
+                  background: active ? TOPIC_ACCENT[t] : '#FAFAF8',
+                  color: active ? '#fff' : '#6B6B6B',
+                  fontFamily: '-apple-system, sans-serif', fontSize: '12px',
                   fontWeight: '600', cursor: 'pointer', textAlign: 'center',
+                  transition: 'all 0.18s',
                 }}>
                   {t}
                 </button>
@@ -45,36 +54,101 @@ export default function SettingsScreen({ topic, setTopic, history, onClearHistor
           </div>
         </div>
 
-        {/* Stats */}
+        {/* Collection */}
         <div style={{
-          background: '#1C1C1E', borderRadius: '20px',
-          padding: '22px 24px', marginBottom: '12px',
+          background: '#FFFFFF', border: '1.5px solid #E8E5DF',
+          borderRadius: '20px', padding: '22px 24px', marginBottom: '12px',
         }}>
           <div style={{
-            fontFamily: '-apple-system, sans-serif', fontSize: '13px',
-            color: '#666', fontWeight: '600', marginBottom: '14px',
+            fontFamily: '-apple-system, sans-serif', fontSize: '11px',
+            color: '#A0A09A', fontWeight: '600', marginBottom: '14px',
             textTransform: 'uppercase', letterSpacing: '1px',
           }}>
-            Stats
+            Mi Colección ({collection.length})
+          </div>
+
+          {collection.length === 0 ? (
+            <p style={{
+              fontFamily: '-apple-system, sans-serif', fontSize: '14px',
+              color: '#A0A09A', lineHeight: '1.5',
+            }}>
+              Marca obras con el marcador para guardarlas aquí.
+            </p>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              {collection.map((item) => (
+                <div key={item.name} style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  padding: '12px 14px', background: '#F8F6F1',
+                  borderRadius: '12px', border: '1px solid #E8E5DF',
+                }}>
+                  <button
+                    onClick={() => onSelectArtwork(item.name)}
+                    style={{
+                      background: 'none', border: 'none', cursor: 'pointer',
+                      textAlign: 'left', flex: 1,
+                    }}
+                  >
+                    <div style={{
+                      fontFamily: '-apple-system, sans-serif',
+                      fontSize: '15px', color: '#1C1A18', fontWeight: '500',
+                    }}>
+                      {item.name}
+                    </div>
+                    <div style={{
+                      fontFamily: '-apple-system, sans-serif',
+                      fontSize: '11px', color: TOPIC_ACCENT[item.topic] || '#A0A09A',
+                      marginTop: '2px', fontWeight: '600',
+                    }}>
+                      {item.topic}
+                    </div>
+                  </button>
+                  <button
+                    onClick={() => removeItem(item.name)}
+                    style={{
+                      background: 'none', border: 'none', cursor: 'pointer',
+                      padding: '4px', borderRadius: '8px', color: '#C0C0BA',
+                      fontSize: '18px', lineHeight: 1,
+                    }}
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Stats */}
+        <div style={{
+          background: '#FFFFFF', border: '1.5px solid #E8E5DF',
+          borderRadius: '20px', padding: '22px 24px', marginBottom: '12px',
+        }}>
+          <div style={{
+            fontFamily: '-apple-system, sans-serif', fontSize: '11px',
+            color: '#A0A09A', fontWeight: '600', marginBottom: '14px',
+            textTransform: 'uppercase', letterSpacing: '1px',
+          }}>
+            Estadísticas
           </div>
           <div style={{ display: 'flex', gap: '12px' }}>
             {[
-              { value: history.length,      label: 'Words' },
-              { value: history.length * 15, label: 'Facts' },
+              { value: history.length,      label: 'Búsquedas' },
+              { value: collection.length,   label: 'Guardadas' },
             ].map(({ value, label }) => (
               <div key={label} style={{
-                flex: 1, background: '#2C2C2E', borderRadius: '14px',
-                padding: '18px', textAlign: 'center',
+                flex: 1, background: '#F8F6F1', borderRadius: '14px',
+                border: '1px solid #E8E5DF', padding: '16px', textAlign: 'center',
               }}>
                 <div style={{
-                  fontSize: '32px', color: '#fff',
+                  fontSize: '30px', color: '#1C1A18',
                   fontFamily: '-apple-system, sans-serif', fontWeight: '700',
                 }}>
                   {value}
                 </div>
                 <div style={{
                   fontFamily: '-apple-system, sans-serif', fontSize: '11px',
-                  color: '#666', marginTop: '4px',
+                  color: '#A0A09A', marginTop: '4px',
                   textTransform: 'uppercase', letterSpacing: '1px',
                 }}>
                   {label}
@@ -86,52 +160,49 @@ export default function SettingsScreen({ topic, setTopic, history, onClearHistor
 
         {/* Clear history */}
         <div style={{
-          background: '#1C1C1E', borderRadius: '20px',
-          padding: '22px 24px', marginBottom: '12px',
+          background: '#FFFFFF', border: '1.5px solid #E8E5DF',
+          borderRadius: '20px', padding: '22px 24px', marginBottom: '12px',
         }}>
           <button
             onClick={onClearHistory}
             disabled={history.length === 0}
             style={{
-              width: '100%', padding: '14px', borderRadius: '14px', border: 'none',
-              background: history.length > 0 ? '#3A1C1C' : '#2C2C2E',
-              color: history.length > 0 ? '#FF6B6B' : '#555',
+              width: '100%', padding: '14px', borderRadius: '14px',
+              border: `1px solid ${history.length > 0 ? '#FFD5D5' : '#E8E5DF'}`,
+              background: history.length > 0 ? '#FFF0F0' : '#F8F6F1',
+              color: history.length > 0 ? '#C0392B' : '#C0C0BA',
               fontFamily: '-apple-system, sans-serif', fontSize: '15px',
               fontWeight: '600', cursor: history.length > 0 ? 'pointer' : 'default',
             }}
           >
-            Clear Search History
+            Limpiar historial de búsqueda
           </button>
         </div>
 
         {/* About */}
         <div style={{
-          background: '#1C1C1E', borderRadius: '20px',
-          padding: '22px 24px', marginBottom: '12px',
+          background: '#FFFFFF', border: '1.5px solid #E8E5DF',
+          borderRadius: '20px', padding: '22px 24px', marginBottom: '32px',
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '14px' }}>
-            <YLogo size={32} color="#fff" />
-            <div>
-              <div style={{
-                fontFamily: '-apple-system, sans-serif',
-                fontSize: '18px', color: '#fff', fontWeight: '700',
-              }}>
-                The Y App
-              </div>
-              <div style={{
-                fontFamily: '-apple-system, sans-serif',
-                fontSize: '12px', color: '#555',
-              }}>
-                v1.0 · Powered by Claude AI
-              </div>
+          <div style={{ marginBottom: '10px' }}>
+            <div style={{
+              fontFamily: '-apple-system, sans-serif',
+              fontSize: '17px', color: '#1C1A18', fontWeight: '700',
+            }}>
+              The Y App
+            </div>
+            <div style={{
+              fontFamily: '-apple-system, sans-serif',
+              fontSize: '12px', color: '#A0A09A', marginTop: '2px',
+            }}>
+              v2.0 · Impulsado por Claude AI (Haiku)
             </div>
           </div>
           <p style={{
             fontFamily: '-apple-system, sans-serif',
-            fontSize: '14px', color: '#888', lineHeight: '1.6',
+            fontSize: '14px', color: '#8A8680', lineHeight: '1.6',
           }}>
-            A cultural knowledge engine. Explore any word through different lenses.
-            Tap any fact to dive deeper.
+            Descubre el arte a tu ritmo. Escanea QRs en la galería, busca obras y artistas, y guarda tus favoritos.
           </p>
         </div>
 
