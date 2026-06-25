@@ -3,12 +3,13 @@ import { TOPIC_ACCENT } from '../constants'
 import { callClaude, buildPrompt, parseSentences } from '../api/claude'
 import { addToCollection, removeFromCollection, isInCollection } from '../utils/collection'
 import { getCached, setCache } from '../utils/cache'
+import { track } from '@vercel/analytics/react'
 import SentenceCard from '../components/SentenceCard'
 import SkeletonCards from '../components/SkeletonCards'
 import Breadcrumb from '../components/Breadcrumb'
 import { BookmarkIcon } from '../components/Icons'
 
-export default function SentencesScreen({ subject, word, topic, trail, onBack, onTapSentence, isSentence }) {
+export default function SentencesScreen({ subject, word, topic, language, trail, onBack, onTapSentence, isSentence }) {
   const [items, setItems] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -23,18 +24,19 @@ export default function SentencesScreen({ subject, word, topic, trail, onBack, o
     let cancelled = false
     setLoading(true); setItems([]); setError(null)
 
-    const cached = getCached(subject, topic)
+    // Cache key includes language so different languages are stored separately
+    const cached = getCached(subject, `${topic}_${language}`)
     if (cached) {
       const parsed = parseSentences(cached)
       if (parsed?.length > 0) { setItems(parsed); setLoading(false); return }
     }
 
-    callClaude(buildPrompt(subject, word, topic, isSentence))
+    callClaude(buildPrompt(subject, word, topic, isSentence, language))
       .then(raw => {
         if (cancelled) return
         const parsed = parseSentences(raw)
         if (parsed?.length > 0) {
-          setCache(subject, topic, raw)
+          setCache(subject, `${topic}_${language}`, raw)
           setItems(parsed)
         } else {
           setError('No se pudo generar la respuesta. Vuelve e inténtalo de nuevo.')
@@ -48,15 +50,17 @@ export default function SentencesScreen({ subject, word, topic, trail, onBack, o
       })
 
     return () => { cancelled = true }
-  }, [subject, topic])
+  }, [subject, topic, language])
 
   const toggleSave = () => {
     if (saved) {
       removeFromCollection(word)
       setSaved(false)
+      track('artwork_unsaved', { artwork: word, topic })
     } else {
       addToCollection(word, topic)
       setSaved(true)
+      track('artwork_saved', { artwork: word, topic })
     }
   }
 

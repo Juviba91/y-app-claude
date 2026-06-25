@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import { TOPICS, TOPIC_ACCENT } from '../constants'
+import { TOPICS, TOPIC_ACCENT, LANGUAGES } from '../constants'
 import { getCollection, removeFromCollection } from '../utils/collection'
 
-export default function SettingsScreen({ topic, setTopic, history, onClearHistory, onSelectArtwork }) {
+export default function SettingsScreen({ topic, setTopic, language, setLanguage, history, onClearHistory, onSelectArtwork }) {
   const [collection, setCollection] = useState(() => getCollection())
 
   const removeItem = (name) => {
@@ -48,6 +48,38 @@ export default function SettingsScreen({ topic, setTopic, history, onClearHistor
                   transition: 'all 0.18s',
                 }}>
                   {t}
+                </button>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* Language selector */}
+        <div style={{
+          background: '#FFFFFF', border: '1.5px solid #E8E5DF',
+          borderRadius: '20px', padding: '22px 24px', marginBottom: '12px',
+        }}>
+          <div style={{
+            fontFamily: '-apple-system, sans-serif', fontSize: '11px',
+            color: '#A0A09A', fontWeight: '600', marginBottom: '14px',
+            textTransform: 'uppercase', letterSpacing: '1px',
+          }}>
+            Idioma del contenido
+          </div>
+          <div style={{ display: 'flex', gap: '8px' }}>
+            {LANGUAGES.map(({ code, label }) => {
+              const active = language === code
+              return (
+                <button key={code} onClick={() => setLanguage(code)} style={{
+                  flex: 1, padding: '12px 0', borderRadius: '14px',
+                  border: active ? 'none' : '1.5px solid #E8E5DF',
+                  background: active ? '#1C1A18' : '#FAFAF8',
+                  color: active ? '#fff' : '#6B6B6B',
+                  fontFamily: '-apple-system, sans-serif', fontSize: '13px',
+                  fontWeight: '600', cursor: 'pointer', textAlign: 'center',
+                  transition: 'all 0.18s',
+                }}>
+                  {label}
                 </button>
               )
             })}
