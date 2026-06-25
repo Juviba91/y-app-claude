@@ -70,7 +70,7 @@ export default function ScanScreen({ onScan }) {
           letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '8px',
           fontFamily: '-apple-system, sans-serif',
         }}>
-          Galería de Arte
+          The Y App
         </div>
         <div style={{
           fontSize: '28px', color: '#1C1A18', fontWeight: '700',

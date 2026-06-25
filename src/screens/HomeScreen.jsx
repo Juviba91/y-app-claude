@@ -21,16 +21,10 @@ export default function HomeScreen({ onSearch, topic, setTopic, history, onHisto
       <div style={{ padding: '48px 24px 24px', textAlign: 'center' }}>
         <div style={{
           fontFamily: "-apple-system, 'Helvetica Neue', sans-serif",
-          fontSize: '13px', color: '#A0A09A', fontWeight: '600',
-          letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '8px',
-        }}>
-          Galería de Arte
-        </div>
-        <div style={{
-          fontFamily: "-apple-system, 'Helvetica Neue', sans-serif",
           fontSize: '30px', color: '#1C1A18', fontWeight: '700', letterSpacing: '-0.5px',
+          marginBottom: '6px',
         }}>
-          Descubre el Arte
+          The Y App
         </div>
         <div style={{
           fontFamily: '-apple-system, sans-serif',

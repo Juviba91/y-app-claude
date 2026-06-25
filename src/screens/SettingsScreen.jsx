@@ -189,7 +189,7 @@ export default function SettingsScreen({ topic, setTopic, history, onClearHistor
               fontFamily: '-apple-system, sans-serif',
               fontSize: '17px', color: '#1C1A18', fontWeight: '700',
             }}>
-              Galería de Arte
+              The Y App
             </div>
             <div style={{
               fontFamily: '-apple-system, sans-serif',
