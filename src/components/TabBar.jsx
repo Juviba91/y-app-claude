@@ -1,12 +1,16 @@
 import { SearchIcon, ScanIcon, SettingsIcon } from './Icons'
-
-const TABS = [
-  { id: 'search',   label: 'Buscar',   Icon: SearchIcon },
-  { id: 'scan',     label: 'Escanear', Icon: ScanIcon },
-  { id: 'settings', label: 'Ajustes',  Icon: SettingsIcon },
-]
+import { useLanguage } from '../contexts/language'
+import { t } from '../utils/i18n'
 
 export default function TabBar({ activeTab, onTab }) {
+  const lang = useLanguage()
+
+  const TABS = [
+    { id: 'search',   label: t(lang, 'tabSearch'),   Icon: SearchIcon },
+    { id: 'scan',     label: t(lang, 'tabScan'),     Icon: ScanIcon },
+    { id: 'settings', label: t(lang, 'tabSettings'), Icon: SettingsIcon },
+  ]
+
   return (
     <div style={{
       position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 200,
@@ -32,8 +36,7 @@ export default function TabBar({ activeTab, onTab }) {
             >
               <Icon active={active} />
               <span style={{
-                fontFamily: '-apple-system, sans-serif',
-                fontSize: '10px',
+                fontFamily: '-apple-system, sans-serif', fontSize: '10px',
                 color: active ? '#1C1A18' : '#A0A09A',
                 fontWeight: active ? '600' : '400',
               }}>

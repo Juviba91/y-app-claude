@@ -1,15 +1,20 @@
-import { SYSTEM_PROMPT } from '../constants'
+import { SYSTEM_PROMPT, LANGUAGE_NAME } from '../constants'
 
 // ─── PROMPT BUILDER ───────────────────────────────────────────────────────────
-export function buildPrompt(subject, word, topic, isSentence) {
+export function buildPrompt(subject, word, topic, isSentence, language = 'es') {
+  const lang = LANGUAGE_NAME[language] || 'Spanish'
+  const langInstruction = `Respond entirely in ${lang}.`
+
   if (isSentence) {
-    return `Give exactly 15 concise art facts expanding on: "${subject}"
+    return `${langInstruction}
+Give exactly 15 facts expanding on: "${subject}"
 Original artwork/artist: "${word}". Audience: ${topic}.
-Max 25 words per sentence. Dense facts only.
+Each fact must be 30-50 words. Informative and complete, not bullet points.
 Return ONLY a numbered list: 1. sentence ... 15. sentence`
   }
-  return `Give exactly 15 concise facts about the artwork or artist "${subject}" from an art history perspective. Audience: ${topic}.
-Max 25 words per sentence. Punchy and precise.
+  return `${langInstruction}
+Give exactly 15 facts about the artwork or artist "${subject}" from an art history perspective. Audience: ${topic}.
+Each fact must be 30-50 words. Informative and complete.
 Cover origin, technique, style, historical context, influence, museum location.
 Return ONLY a numbered list: 1. sentence ... 15. sentence`
 }
@@ -23,7 +28,7 @@ export function parseSentences(text) {
 
   for (const line of lines) {
     const m = line.match(/^\d+[\.\)]\s*(.+)/)
-    if (m && m[1].trim().length > 8) {
+    if (m && m[1].trim().length > 10) {
       results.push(m[1].trim())
     }
   }
@@ -32,7 +37,7 @@ export function parseSentences(text) {
     const sents = text
       .split(/(?<=[.!?])\s+/)
       .map(s => s.trim())
-      .filter(s => s.length > 15)
+      .filter(s => s.length > 20)
     if (sents.length >= 3) return sents.slice(0, 15)
     return null
   }
@@ -58,7 +63,7 @@ export async function callClaude(prompt) {
         },
         body: JSON.stringify({
           model: 'claude-haiku-4-5-20251001',
-          max_tokens: 1000,
+          max_tokens: 1500,
           messages: [{ role: 'user', content: fullPrompt }],
         }),
       })
