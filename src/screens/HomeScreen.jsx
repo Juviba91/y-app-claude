@@ -1,9 +1,12 @@
 import { useState, useEffect, useRef } from 'react'
 import { TOPICS, TOPIC_ACCENT } from '../constants'
+import { useLanguage } from '../contexts/language'
+import { t, topicLabel } from '../utils/i18n'
 
 export default function HomeScreen({ onSearch, topic, setTopic, history, onHistoryWord }) {
   const [input, setInput] = useState('')
   const inputRef = useRef(null)
+  const lang = useLanguage()
   const accent = TOPIC_ACCENT[topic]
 
   useEffect(() => {
@@ -21,16 +24,16 @@ export default function HomeScreen({ onSearch, topic, setTopic, history, onHisto
       <div style={{ padding: '48px 24px 24px', textAlign: 'center' }}>
         <div style={{
           fontFamily: "-apple-system, 'Helvetica Neue', sans-serif",
-          fontSize: '30px', color: '#1C1A18', fontWeight: '700', letterSpacing: '-0.5px',
-          marginBottom: '6px',
+          fontSize: '30px', color: '#1C1A18', fontWeight: '700',
+          letterSpacing: '-0.5px', marginBottom: '6px',
         }}>
           The Y App
         </div>
         <div style={{
           fontFamily: '-apple-system, sans-serif',
-          fontSize: '15px', color: '#8A8680', marginTop: '6px',
+          fontSize: '15px', color: '#8A8680', marginTop: '2px',
         }}>
-          Busca una obra, artista o movimiento
+          {t(lang, 'appTagline')}
         </div>
       </div>
 
@@ -51,7 +54,7 @@ export default function HomeScreen({ onSearch, topic, setTopic, history, onHisto
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && submit()}
-            placeholder="La Joconda, Picasso, Impresionismo..."
+            placeholder={t(lang, 'searchPlaceholder')}
             style={{
               flex: 1, background: 'transparent', border: 'none', outline: 'none',
               color: '#1C1A18', fontSize: '16px',
@@ -89,21 +92,21 @@ export default function HomeScreen({ onSearch, topic, setTopic, history, onHisto
           color: '#A0A09A', fontWeight: '600', marginBottom: '10px',
           textTransform: 'uppercase', letterSpacing: '1px', textAlign: 'center',
         }}>
-          Objetivo
+          {t(lang, 'objective')}
         </div>
         <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
-          {TOPICS.map(t => {
-            const active = topic === t
+          {TOPICS.map(topicKey => {
+            const active = topic === topicKey
             return (
-              <button key={t} onClick={() => setTopic(t)} style={{
+              <button key={topicKey} onClick={() => setTopic(topicKey)} style={{
                 padding: '8px 16px', borderRadius: '20px',
                 border: active ? 'none' : '1.5px solid #E8E5DF',
-                background: active ? TOPIC_ACCENT[t] : '#FFFFFF',
+                background: active ? TOPIC_ACCENT[topicKey] : '#FFFFFF',
                 color: active ? '#fff' : '#6B6B6B',
                 fontFamily: '-apple-system, sans-serif', fontSize: '13px',
                 fontWeight: '600', cursor: 'pointer', transition: 'all 0.18s',
               }}>
-                {t}
+                {topicLabel(lang, topicKey)}
               </button>
             )
           })}
@@ -118,15 +121,14 @@ export default function HomeScreen({ onSearch, topic, setTopic, history, onHisto
             color: '#A0A09A', fontWeight: '600', marginBottom: '12px',
             textTransform: 'uppercase', letterSpacing: '1px',
           }}>
-            Recientes
+            {t(lang, 'recent')}
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
             {history.slice(0, 12).map((w, i) => (
               <button key={i} onClick={() => onHistoryWord(w)} style={{
                 background: '#FFFFFF', border: '1.5px solid #E8E5DF',
-                color: '#3A3835',
-                padding: '7px 14px', borderRadius: '20px', cursor: 'pointer',
-                fontFamily: '-apple-system, sans-serif', fontSize: '14px',
+                color: '#3A3835', padding: '7px 14px', borderRadius: '20px',
+                cursor: 'pointer', fontFamily: '-apple-system, sans-serif', fontSize: '14px',
               }}>
                 {w}
               </button>

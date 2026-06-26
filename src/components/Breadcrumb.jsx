@@ -1,6 +1,9 @@
 import { TOPIC_ACCENT } from '../constants'
+import { useLanguage } from '../contexts/language'
+import { t } from '../utils/i18n'
 
 export default function Breadcrumb({ trail, topic, onBack }) {
+  const lang = useLanguage()
   const MAX = 2
   const visible = trail.length > MAX + 1
     ? [trail[0], '…', ...trail.slice(-MAX)]
@@ -17,7 +20,7 @@ export default function Breadcrumb({ trail, topic, onBack }) {
           fontFamily: '-apple-system, sans-serif', fontSize: '13px', fontWeight: '500',
         }}
       >
-        ← Volver
+        {t(lang, 'back')}
       </button>
       {visible.map((crumb, i) => (
         <span key={i} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -25,11 +28,8 @@ export default function Breadcrumb({ trail, topic, onBack }) {
             fontSize: '12px',
             fontFamily: '-apple-system, sans-serif',
             color: i === visible.length - 1 ? '#1C1A18' : '#A0A09A',
-            maxWidth: '100px',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
-            display: 'inline-block',
+            maxWidth: '100px', overflow: 'hidden',
+            textOverflow: 'ellipsis', whiteSpace: 'nowrap', display: 'inline-block',
           }}>
             {crumb.length > 18 ? crumb.slice(0, 18) + '…' : crumb}
           </span>
