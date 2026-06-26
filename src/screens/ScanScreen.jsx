@@ -1,14 +1,16 @@
 import { useState, useEffect, useRef } from 'react'
+import jsQR from 'jsqr'
 import { useLanguage } from '../contexts/language'
 import { t } from '../utils/i18n'
 
 export default function ScanScreen({ onScan }) {
-  const videoRef = useRef(null)
+  const videoRef  = useRef(null)
+  const canvasRef = useRef(null)
   const streamRef = useRef(null)
   const intervalRef = useRef(null)
   const [status, setStatus] = useState('idle')
   const [manualInput, setManualInput] = useState('')
-  const [lastDetected, setLastDetected] = useState(null)
+  const lastDetected = useRef(null)
   const lang = useLanguage()
 
   const stopScan = () => {
@@ -18,9 +20,23 @@ export default function ScanScreen({ onScan }) {
     setStatus('idle')
   }
 
+  const handleDetected = (raw) => {
+    const value = raw.trim()
+    if (!value || value === lastDetected.current) return
+    lastDetected.current = value
+    stopScan()
+    // Support both plain text and deep-link URLs (?obra=...)
+    try {
+      const url = new URL(value)
+      const obra = url.searchParams.get('obra')
+      if (obra) { onScan(obra); return }
+    } catch (_) {}
+    onScan(value)
+  }
+
   const startScan = async () => {
-    if (!('BarcodeDetector' in window)) { setStatus('unsupported'); return }
     setStatus('scanning')
+    lastDetected.current = null
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 } },
@@ -30,22 +46,22 @@ export default function ScanScreen({ onScan }) {
         videoRef.current.srcObject = stream
         await videoRef.current.play()
       }
-      const detector = new window.BarcodeDetector({ formats: ['qr_code'] })
-      intervalRef.current = setInterval(async () => {
-        if (!videoRef.current || videoRef.current.readyState < 2) return
-        try {
-          const codes = await detector.detect(videoRef.current)
-          if (codes.length > 0) {
-            const value = codes[0].rawValue.trim()
-            if (value && value !== lastDetected) {
-              setLastDetected(value)
-              stopScan()
-              onScan(value)
-            }
-          }
-        } catch (_) {}
-      }, 400)
-    } catch (e) {
+      intervalRef.current = setInterval(() => {
+        const video  = videoRef.current
+        const canvas = canvasRef.current
+        if (!video || video.readyState < 2 || !canvas) return
+        const w = video.videoWidth
+        const h = video.videoHeight
+        if (!w || !h) return
+        canvas.width  = w
+        canvas.height = h
+        const ctx = canvas.getContext('2d', { willReadFrequently: true })
+        ctx.drawImage(video, 0, 0, w, h)
+        const imageData = ctx.getImageData(0, 0, w, h)
+        const code = jsQR(imageData.data, w, h)
+        if (code?.data) handleDetected(code.data)
+      }, 300)
+    } catch (_) {
       setStatus('error')
     }
   }
@@ -59,6 +75,9 @@ export default function ScanScreen({ onScan }) {
 
   return (
     <div style={{ flex: 1, padding: '0 20px' }}>
+      {/* Hidden canvas for frame processing */}
+      <canvas ref={canvasRef} style={{ display: 'none' }} />
+
       {/* Header */}
       <div style={{ padding: '48px 0 28px', textAlign: 'center' }}>
         <div style={{
@@ -92,23 +111,18 @@ export default function ScanScreen({ onScan }) {
             flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '16px',
           }}>
             <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-              <path d="M8 20V8h12" stroke="#555" strokeWidth="3" strokeLinecap="round"/>
+              <path d="M8 20V8h12"  stroke="#555" strokeWidth="3" strokeLinecap="round"/>
               <path d="M72 20V8H60" stroke="#555" strokeWidth="3" strokeLinecap="round"/>
-              <path d="M8 60v12h12" stroke="#555" strokeWidth="3" strokeLinecap="round"/>
+              <path d="M8 60v12h12"  stroke="#555" strokeWidth="3" strokeLinecap="round"/>
               <path d="M72 60v12H60" stroke="#555" strokeWidth="3" strokeLinecap="round"/>
               <rect x="24" y="24" width="10" height="10" rx="2" fill="#555"/>
               <rect x="46" y="24" width="10" height="10" rx="2" fill="#555"/>
               <rect x="24" y="46" width="10" height="10" rx="2" fill="#555"/>
               <rect x="42" y="42" width="14" height="14" rx="2" fill="#555"/>
             </svg>
-            {(status === 'error') && (
+            {status === 'error' && (
               <p style={{ color: '#FF6B6B', fontFamily: '-apple-system, sans-serif', fontSize: '13px', textAlign: 'center', padding: '0 20px' }}>
                 {t(lang, 'cameraError')}
-              </p>
-            )}
-            {status === 'unsupported' && (
-              <p style={{ color: '#A0A09A', fontFamily: '-apple-system, sans-serif', fontSize: '13px', textAlign: 'center', padding: '0 20px' }}>
-                {t(lang, 'unsupported')}
               </p>
             )}
           </div>
