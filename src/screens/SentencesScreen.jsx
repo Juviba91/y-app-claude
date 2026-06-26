@@ -91,11 +91,12 @@ export default function SentencesScreen({ subject, word, topic, language, trail,
         </div>
 
         <h2 style={{
-          fontSize: isSentence ? '17px' : '26px',
-          fontWeight: isSentence ? '400' : '700',
+          fontSize: isSentence ? '17px' : '32px',
+          fontWeight: isSentence ? '400' : '800',
           color: '#1C1A18',
           fontFamily: "-apple-system, 'Helvetica Neue', sans-serif",
-          lineHeight: isSentence ? '1.5' : '1.2',
+          lineHeight: isSentence ? '1.5' : '1.1',
+          letterSpacing: isSentence ? 'normal' : '-0.8px',
           fontStyle: isSentence ? 'italic' : 'normal',
           borderLeft: isSentence ? `3px solid ${accent}` : 'none',
           paddingLeft: isSentence ? '14px' : '0',
