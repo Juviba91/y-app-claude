@@ -7,7 +7,7 @@ export function track(event, props = {}) {
   vercelTrack(event, props)
 
   if (!supabase) return
-  supabase.from('events').insert({
+  supabase.from('art_analytics').insert({
     event,
     session_id: SESSION_ID,
     language: props.language ?? null,
