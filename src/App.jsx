@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Analytics, track } from '@vercel/analytics/react'
 import { LanguageContext } from './contexts/language'
 import { t } from './utils/i18n'
@@ -73,6 +73,16 @@ export default function App() {
     track('language_change', { language: lang })
     setLanguage(lang)
   }
+
+  // Read ?obra= on first load so QR codes can deep-link directly to an artwork
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const obra = params.get('obra')
+    if (obra) {
+      window.history.replaceState(null, '', window.location.pathname)
+      goToWord(obra.trim(), 'qr_url')
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const activeTab = screen === 'sentences' ? 'search' : tab
 

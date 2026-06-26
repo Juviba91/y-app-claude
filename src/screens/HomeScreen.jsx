@@ -21,17 +21,15 @@ export default function HomeScreen({ onSearch, topic, setTopic, history, onHisto
   return (
     <div style={{ flex: 1 }}>
       {/* Header */}
-      <div style={{ padding: '48px 24px 24px', textAlign: 'center' }}>
-        <div style={{
-          fontFamily: "-apple-system, 'Helvetica Neue', sans-serif",
-          fontSize: '30px', color: '#1C1A18', fontWeight: '700',
-          letterSpacing: '-0.5px', marginBottom: '6px',
-        }}>
-          The Y App
-        </div>
+      <div style={{ padding: '48px 24px 20px', textAlign: 'center' }}>
+        <img
+          src="/logo.png"
+          alt="The Y App"
+          style={{ width: '64px', height: '64px', objectFit: 'contain', marginBottom: '10px' }}
+        />
         <div style={{
           fontFamily: '-apple-system, sans-serif',
-          fontSize: '15px', color: '#8A8680', marginTop: '2px',
+          fontSize: '15px', color: '#8A8680',
         }}>
           {t(lang, 'appTagline')}
         </div>
