@@ -85,7 +85,7 @@ export default function App() {
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const activeTab = screen === 'sentences' ? 'search' : tab
+  const activeTab = tab
 
   return (
     <LanguageContext.Provider value={language}>
