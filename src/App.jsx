@@ -88,7 +88,7 @@ export default function App() {
 
   return (
     <LanguageContext.Provider value={language}>
-      <div style={{ minHeight: '100vh', background: '#F8F6F1', display: 'flex', flexDirection: 'column' }}>
+      <div style={{ minHeight: '100vh', background: '#FFFFFF', display: 'flex', flexDirection: 'column' }}>
         <Analytics />
 
         {/* Blocked word toast */}

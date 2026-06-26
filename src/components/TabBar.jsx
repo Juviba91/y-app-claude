@@ -14,8 +14,8 @@ export default function TabBar({ activeTab, onTab }) {
   return (
     <div style={{
       position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 200,
-      background: '#F8F6F1ee', backdropFilter: 'blur(20px)',
-      borderTop: '1px solid #E8E5DF',
+      background: '#FFFFFFee', backdropFilter: 'blur(20px)',
+      borderTop: '1px solid #EBEBEB',
       paddingBottom: 'env(safe-area-inset-bottom, 8px)',
     }}>
       <div style={{
@@ -37,7 +37,7 @@ export default function TabBar({ activeTab, onTab }) {
               <Icon active={active} />
               <span style={{
                 fontFamily: '-apple-system, sans-serif', fontSize: '10px',
-                color: active ? '#1C1A18' : '#A0A09A',
+                color: active ? '#111111' : '#BBBBBB',
                 fontWeight: active ? '600' : '400',
               }}>
                 {label}

@@ -84,7 +84,7 @@ export default function SentencesScreen({ subject, word, topic, language, trail,
         <div style={{ marginTop: '20px', marginBottom: '6px' }}>
           <span style={{
             fontFamily: '-apple-system, sans-serif', fontSize: '11px',
-            color: accent, fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1.5px',
+            color: '#888888', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1.5px',
           }}>
             {topicLabel(lang, topic)} · {isSentence ? t(lang, 'deepDive') : t(lang, 'overview')}
           </span>
@@ -93,12 +93,12 @@ export default function SentencesScreen({ subject, word, topic, language, trail,
         <h2 style={{
           fontSize: isSentence ? '17px' : '32px',
           fontWeight: isSentence ? '400' : '800',
-          color: '#1C1A18',
+          color: '#111111',
           fontFamily: "-apple-system, 'Helvetica Neue', sans-serif",
           lineHeight: isSentence ? '1.5' : '1.1',
           letterSpacing: isSentence ? 'normal' : '-0.8px',
           fontStyle: isSentence ? 'italic' : 'normal',
-          borderLeft: isSentence ? `3px solid ${accent}` : 'none',
+          borderLeft: isSentence ? '3px solid #DDDDDD' : 'none',
           paddingLeft: isSentence ? '14px' : '0',
           marginBottom: '4px',
         }}>
@@ -121,9 +121,9 @@ export default function SentencesScreen({ subject, word, topic, language, trail,
         {loading && <SkeletonCards />}
         {error && (
           <div style={{
-            background: '#FFF5F5', border: '1px solid #FFD5D5',
+            background: '#F8F8F8', border: '1.5px solid #EBEBEB',
             borderRadius: '16px', padding: '20px 22px',
-            color: '#C0392B', fontFamily: '-apple-system, sans-serif', fontSize: '14px',
+            color: '#888888', fontFamily: '-apple-system, sans-serif', fontSize: '14px',
           }}>
             {error}
           </div>
