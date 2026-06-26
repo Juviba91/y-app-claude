@@ -20,31 +20,39 @@ export default function HomeScreen({ onSearch, topic, setTopic, history, onHisto
 
   return (
     <div style={{ flex: 1 }}>
-      {/* Header */}
-      <div style={{ padding: '48px 24px 20px', textAlign: 'center' }}>
+      {/* Hero */}
+      <div style={{ padding: '56px 24px 36px' }}>
         <img
           src="/logo.png"
           alt="The Y App"
-          style={{ width: '64px', height: '64px', objectFit: 'contain', marginBottom: '10px' }}
+          style={{ width: '40px', height: '40px', objectFit: 'contain', marginBottom: '22px', display: 'block' }}
         />
-        <div style={{
+        <h1 style={{
+          fontFamily: "-apple-system, 'Helvetica Neue', sans-serif",
+          fontSize: '42px', fontWeight: '800', lineHeight: '1.08',
+          letterSpacing: '-1.5px', color: '#1C1A18',
+          margin: '0 0 12px',
+        }}>
+          {t(lang, 'appHero')}
+        </h1>
+        <p style={{
           fontFamily: '-apple-system, sans-serif',
-          fontSize: '15px', color: '#8A8680',
+          fontSize: '16px', color: '#8A8680', margin: 0, lineHeight: '1.5',
         }}>
           {t(lang, 'appTagline')}
-        </div>
+        </p>
       </div>
 
       {/* Search bar */}
-      <div style={{ padding: '0 20px 20px' }}>
+      <div style={{ padding: '0 20px 24px' }}>
         <div style={{
           display: 'flex', alignItems: 'center', gap: '10px',
           background: '#FFFFFF', border: '1.5px solid #E8E5DF',
-          borderRadius: '16px', padding: '4px 4px 4px 16px',
-          boxShadow: '0 1px 4px rgba(0,0,0,0.05)',
+          borderRadius: '18px', padding: '6px 6px 6px 18px',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
         }}>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-            stroke="#A0A09A" strokeWidth="2.5" strokeLinecap="round">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="#C0C0BA" strokeWidth="2.5" strokeLinecap="round">
             <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
           </svg>
           <input
@@ -57,52 +65,48 @@ export default function HomeScreen({ onSearch, topic, setTopic, history, onHisto
               flex: 1, background: 'transparent', border: 'none', outline: 'none',
               color: '#1C1A18', fontSize: '16px',
               fontFamily: "-apple-system, 'Helvetica Neue', sans-serif",
-              padding: '12px 0',
+              padding: '13px 0',
             }}
           />
           <button
             onClick={submit}
             disabled={!input.trim()}
             style={{
-              width: '40px', height: '40px', borderRadius: '12px', border: 'none',
+              height: '44px', padding: '0 18px', borderRadius: '13px', border: 'none',
               flexShrink: 0,
               background: input.trim() ? accent : '#EDEAE4',
               color: input.trim() ? '#fff' : '#A0A09A',
               cursor: input.trim() ? 'pointer' : 'default',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontFamily: '-apple-system, sans-serif', fontSize: '14px', fontWeight: '600',
               transition: 'all 0.18s',
             }}
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" strokeWidth="2.5"
-              strokeLinecap="round" strokeLinejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"/>
-              <polyline points="12,5 19,12 12,19"/>
-            </svg>
+            →
           </button>
         </div>
       </div>
 
       {/* Audience pills */}
-      <div style={{ padding: '0 20px 28px' }}>
-        <div style={{
+      <div style={{ padding: '0 20px 32px' }}>
+        <p style={{
           fontFamily: '-apple-system, sans-serif', fontSize: '11px',
-          color: '#A0A09A', fontWeight: '600', marginBottom: '10px',
-          textTransform: 'uppercase', letterSpacing: '1px', textAlign: 'center',
+          color: '#C0C0BA', fontWeight: '600', margin: '0 0 12px',
+          textTransform: 'uppercase', letterSpacing: '1.2px', textAlign: 'center',
         }}>
           {t(lang, 'objective')}
-        </div>
+        </p>
         <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
           {TOPICS.map(topicKey => {
             const active = topic === topicKey
             return (
               <button key={topicKey} onClick={() => setTopic(topicKey)} style={{
-                padding: '8px 16px', borderRadius: '20px',
+                padding: '10px 18px', borderRadius: '50px',
                 border: active ? 'none' : '1.5px solid #E8E5DF',
-                background: active ? TOPIC_ACCENT[topicKey] : '#FFFFFF',
-                color: active ? '#fff' : '#6B6B6B',
+                background: active ? TOPIC_ACCENT[topicKey] : 'transparent',
+                color: active ? '#fff' : '#8A8680',
                 fontFamily: '-apple-system, sans-serif', fontSize: '13px',
                 fontWeight: '600', cursor: 'pointer', transition: 'all 0.18s',
+                letterSpacing: '0.2px',
               }}>
                 {topicLabel(lang, topicKey)}
               </button>
@@ -114,19 +118,20 @@ export default function HomeScreen({ onSearch, topic, setTopic, history, onHisto
       {/* History */}
       {history.length > 0 && (
         <div style={{ padding: '0 20px' }}>
-          <div style={{
+          <p style={{
             fontFamily: '-apple-system, sans-serif', fontSize: '11px',
-            color: '#A0A09A', fontWeight: '600', marginBottom: '12px',
-            textTransform: 'uppercase', letterSpacing: '1px',
+            color: '#C0C0BA', fontWeight: '600', margin: '0 0 12px',
+            textTransform: 'uppercase', letterSpacing: '1.2px',
           }}>
             {t(lang, 'recent')}
-          </div>
+          </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
             {history.slice(0, 12).map((w, i) => (
               <button key={i} onClick={() => onHistoryWord(w)} style={{
                 background: '#FFFFFF', border: '1.5px solid #E8E5DF',
-                color: '#3A3835', padding: '7px 14px', borderRadius: '20px',
-                cursor: 'pointer', fontFamily: '-apple-system, sans-serif', fontSize: '14px',
+                color: '#3A3835', padding: '8px 16px', borderRadius: '50px',
+                cursor: 'pointer', fontFamily: '-apple-system, sans-serif',
+                fontSize: '14px', transition: 'border-color 0.15s',
               }}>
                 {w}
               </button>

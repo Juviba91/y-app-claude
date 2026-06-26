@@ -1,6 +1,7 @@
 const UI = {
   es: {
     // Home
+    appHero:           'El arte, explicado.',
     appTagline:        'Busca una obra, artista o movimiento',
     searchPlaceholder: 'La Joconda, Picasso, Impresionismo...',
     objective:         'Objetivo',
@@ -47,6 +48,7 @@ const UI = {
   },
   en: {
     // Home
+    appHero:           'Art, explained.',
     appTagline:        'Search artworks, artists or movements',
     searchPlaceholder: 'Mona Lisa, Picasso, Impressionism...',
     objective:         'Audience',

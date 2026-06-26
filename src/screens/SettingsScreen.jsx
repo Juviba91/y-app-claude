@@ -14,13 +14,14 @@ export default function SettingsScreen({ topic, setTopic, language, setLanguage,
 
   return (
     <div style={{ flex: 1 }}>
-      <div style={{ padding: '48px 24px 24px' }}>
-        <div style={{
-          fontFamily: '-apple-system, sans-serif',
-          fontSize: '28px', color: '#1C1A18', fontWeight: '700',
+      <div style={{ padding: '56px 24px 28px' }}>
+        <h1 style={{
+          fontFamily: "-apple-system, 'Helvetica Neue', sans-serif",
+          fontSize: '42px', fontWeight: '800', letterSpacing: '-1.5px',
+          color: '#1C1A18', margin: 0,
         }}>
           {t(lang, 'settingsTitle')}
-        </div>
+        </h1>
       </div>
 
       <div style={{ padding: '0 20px' }}>
