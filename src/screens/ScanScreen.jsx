@@ -81,13 +81,13 @@ export default function ScanScreen({ onScan }) {
       {/* Header */}
       <div style={{ padding: '48px 0 28px', textAlign: 'center' }}>
         <div style={{
-          fontSize: '28px', color: '#1C1A18', fontWeight: '700',
+          fontSize: '28px', color: '#111111', fontWeight: '700',
           fontFamily: "-apple-system, 'Helvetica Neue', sans-serif",
         }}>
           {t(lang, 'scanTitle')}
         </div>
         <div style={{
-          fontSize: '14px', color: '#8A8680', marginTop: '6px',
+          fontSize: '14px', color: '#888888', marginTop: '6px',
           fontFamily: '-apple-system, sans-serif',
         }}>
           {t(lang, 'scanSubtitle')}
@@ -97,8 +97,8 @@ export default function ScanScreen({ onScan }) {
       {/* Camera viewfinder */}
       <div style={{
         position: 'relative', borderRadius: '24px', overflow: 'hidden',
-        background: '#1C1A18', aspectRatio: '1',
-        border: '1.5px solid #E8E5DF', boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+        background: '#111111', aspectRatio: '1',
+        border: '1.5px solid #EBEBEB', boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
       }}>
         <video ref={videoRef} autoPlay playsInline muted style={{
           width: '100%', height: '100%', objectFit: 'cover',
@@ -130,7 +130,7 @@ export default function ScanScreen({ onScan }) {
 
         {status === 'scanning' && (
           <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <div style={{ width: '200px', height: '200px', border: '2px solid #2563EB', borderRadius: '20px', animation: 'scanPulse 2s ease-in-out infinite' }} />
+            <div style={{ width: '200px', height: '200px', border: '2px solid #111111', borderRadius: '20px', animation: 'scanPulse 2s ease-in-out infinite' }} />
           </div>
         )}
       </div>
@@ -140,7 +140,7 @@ export default function ScanScreen({ onScan }) {
         {status !== 'scanning' ? (
           <button onClick={startScan} style={{
             width: '100%', padding: '16px', borderRadius: '16px', border: 'none',
-            background: '#1C1A18', color: '#fff',
+            background: '#111111', color: '#fff',
             fontFamily: '-apple-system, sans-serif', fontSize: '16px', fontWeight: '600', cursor: 'pointer',
           }}>
             {t(lang, 'startScan')}
@@ -148,7 +148,7 @@ export default function ScanScreen({ onScan }) {
         ) : (
           <button onClick={stopScan} style={{
             width: '100%', padding: '16px', borderRadius: '16px', border: 'none',
-            background: '#EDEAE4', color: '#6B6B6B',
+            background: '#F0F0F0', color: '#888888',
             fontFamily: '-apple-system, sans-serif', fontSize: '16px', fontWeight: '600', cursor: 'pointer',
           }}>
             {t(lang, 'stopScan')}
@@ -158,17 +158,17 @@ export default function ScanScreen({ onScan }) {
 
       {/* Divider */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px', margin: '24px 0' }}>
-        <div style={{ flex: 1, height: '1px', background: '#E8E5DF' }} />
+        <div style={{ flex: 1, height: '1px', background: '#EBEBEB' }} />
         <span style={{ fontFamily: '-apple-system, sans-serif', fontSize: '12px', color: '#A0A09A', fontWeight: '500' }}>
           {t(lang, 'orType')}
         </span>
-        <div style={{ flex: 1, height: '1px', background: '#E8E5DF' }} />
+        <div style={{ flex: 1, height: '1px', background: '#EBEBEB' }} />
       </div>
 
       {/* Manual input */}
       <div style={{
         display: 'flex', gap: '10px', alignItems: 'center',
-        background: '#FFFFFF', border: '1.5px solid #E8E5DF',
+        background: '#FFFFFF', border: '1.5px solid #EBEBEB',
         borderRadius: '16px', padding: '4px 4px 4px 16px',
         boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
       }}>
@@ -179,7 +179,7 @@ export default function ScanScreen({ onScan }) {
           placeholder={t(lang, 'manualPlaceholder')}
           style={{
             flex: 1, background: 'transparent', border: 'none', outline: 'none',
-            color: '#1C1A18', fontSize: '16px',
+            color: '#111111', fontSize: '16px',
             fontFamily: "-apple-system, 'Helvetica Neue', sans-serif", padding: '12px 0',
           }}
         />
@@ -188,8 +188,8 @@ export default function ScanScreen({ onScan }) {
           disabled={!manualInput.trim()}
           style={{
             width: '40px', height: '40px', borderRadius: '12px', border: 'none',
-            background: manualInput.trim() ? '#1C1A18' : '#EDEAE4',
-            color: manualInput.trim() ? '#fff' : '#A0A09A',
+            background: manualInput.trim() ? '#111111' : '#EDEAE4',
+            color: manualInput.trim() ? '#fff' : '#BBBBBB',
             cursor: manualInput.trim() ? 'pointer' : 'default',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             transition: 'all 0.18s', flexShrink: 0,

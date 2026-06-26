@@ -14,8 +14,8 @@ export default function Breadcrumb({ trail, topic, onBack }) {
       <button
         onClick={onBack}
         style={{
-          background: '#FFFFFF', border: '1.5px solid #E8E5DF',
-          color: '#6B6B6B',
+          background: '#FFFFFF', border: '1.5px solid #EBEBEB',
+          color: '#888888',
           padding: '7px 14px', borderRadius: '20px', cursor: 'pointer',
           fontFamily: '-apple-system, sans-serif', fontSize: '13px', fontWeight: '500',
         }}
@@ -27,14 +27,14 @@ export default function Breadcrumb({ trail, topic, onBack }) {
           <span style={{
             fontSize: '12px',
             fontFamily: '-apple-system, sans-serif',
-            color: i === visible.length - 1 ? '#1C1A18' : '#A0A09A',
+            color: i === visible.length - 1 ? '#111111' : '#BBBBBB',
             maxWidth: '100px', overflow: 'hidden',
             textOverflow: 'ellipsis', whiteSpace: 'nowrap', display: 'inline-block',
           }}>
             {crumb.length > 18 ? crumb.slice(0, 18) + '…' : crumb}
           </span>
           {i < visible.length - 1 && (
-            <span style={{ color: '#C0C0BA', fontSize: '12px' }}>›</span>
+            <span style={{ color: '#CCCCCC', fontSize: '12px' }}>›</span>
           )}
         </span>
       ))}
