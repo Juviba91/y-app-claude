@@ -7,16 +7,16 @@ export function buildPrompt(subject, word, topic, isSentence, language = 'es') {
 
   if (isSentence) {
     return `${langInstruction}
-Give exactly 8 facts expanding on: "${subject}"
+Give exactly 15 facts expanding on: "${subject}"
 Original artwork/artist: "${word}". Audience: ${topic}.
-Each fact must be 15-25 words. Concise and informative, not bullet points.
-Return ONLY a numbered list: 1. sentence ... 8. sentence`
+Each fact must be 22-30 words. Informative and complete, not bullet points.
+Return ONLY a numbered list: 1. sentence ... 15. sentence`
   }
   return `${langInstruction}
-Give exactly 8 facts about the artwork or artist "${subject}" from an art history perspective. Audience: ${topic}.
-Each fact must be 15-25 words. Concise and informative.
+Give exactly 15 facts about the artwork or artist "${subject}" from an art history perspective. Audience: ${topic}.
+Each fact must be 22-30 words. Informative and complete.
 Cover origin, technique, style, historical context, influence, museum location.
-Return ONLY a numbered list: 1. sentence ... 8. sentence`
+Return ONLY a numbered list: 1. sentence ... 15. sentence`
 }
 
 // ─── RESPONSE PARSER ──────────────────────────────────────────────────────────
@@ -38,11 +38,11 @@ export function parseSentences(text) {
       .split(/(?<=[.!?])\s+/)
       .map(s => s.trim())
       .filter(s => s.length > 20)
-    if (sents.length >= 3) return sents.slice(0, 8)
+    if (sents.length >= 3) return sents.slice(0, 15)
     return null
   }
 
-  return results.slice(0, 8)
+  return results.slice(0, 15)
 }
 
 // ─── API CALLER ───────────────────────────────────────────────────────────────
@@ -63,7 +63,7 @@ export async function callClaude(prompt) {
         },
         body: JSON.stringify({
           model: 'claude-haiku-4-5-20251001',
-          max_tokens: 600,
+          max_tokens: 1500,
           messages: [{ role: 'user', content: fullPrompt }],
         }),
       })
