@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { Analytics, track } from '@vercel/analytics/react'
+import { Analytics } from '@vercel/analytics/react'
+import { track } from './utils/analyticsDB'
 import { LanguageContext } from './contexts/language'
 import { t } from './utils/i18n'
 import { getHistory, addToHistory, clearHistory } from './utils/history'
@@ -84,18 +85,18 @@ export default function App() {
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const activeTab = screen === 'sentences' ? 'search' : tab
+  const activeTab = tab
 
   return (
     <LanguageContext.Provider value={language}>
-      <div style={{ minHeight: '100vh', background: '#F8F6F1', display: 'flex', flexDirection: 'column' }}>
+      <div style={{ minHeight: '100vh', background: '#FFFFFF', display: 'flex', flexDirection: 'column' }}>
         <Analytics />
 
         {/* Blocked word toast */}
         {blockedMsg && (
           <div style={{
             position: 'fixed', top: '20px', left: '50%', transform: 'translateX(-50%)',
-            background: '#1C1A18', color: '#fff', borderRadius: '14px',
+            background: '#111111', color: '#fff', borderRadius: '14px',
             padding: '12px 20px', zIndex: 999, fontSize: '14px',
             fontFamily: '-apple-system, sans-serif', fontWeight: '500',
             boxShadow: '0 4px 20px rgba(0,0,0,0.15)',

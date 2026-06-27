@@ -9,12 +9,12 @@ export function buildPrompt(subject, word, topic, isSentence, language = 'es') {
     return `${langInstruction}
 Give exactly 15 facts expanding on: "${subject}"
 Original artwork/artist: "${word}". Audience: ${topic}.
-Each fact must be 30-50 words. Informative and complete, not bullet points.
+Each fact must be 22-30 words. Informative and complete, not bullet points.
 Return ONLY a numbered list: 1. sentence ... 15. sentence`
   }
   return `${langInstruction}
 Give exactly 15 facts about the artwork or artist "${subject}" from an art history perspective. Audience: ${topic}.
-Each fact must be 30-50 words. Informative and complete.
+Each fact must be 22-30 words. Informative and complete.
 Cover origin, technique, style, historical context, influence, museum location.
 Return ONLY a numbered list: 1. sentence ... 15. sentence`
 }
