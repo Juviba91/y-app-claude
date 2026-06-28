@@ -12,21 +12,23 @@ export default function SentenceCard({ text, onTap, delay = 0 }) {
       onMouseUp={() => setPressed(false)}
       onMouseLeave={() => setPressed(false)}
       style={{
-        background: pressed ? '#F0EDE7' : '#FFFFFF',
-        border: '1px solid #E8E5DF',
-        borderRadius: '16px',
-        padding: '20px 22px',
+        background: pressed ? '#F5F5F5' : '#FFFFFF',
+        borderRadius: '18px',
+        padding: '22px 24px',
         marginBottom: '10px',
         cursor: 'pointer',
-        transform: pressed ? 'scale(0.97)' : 'scale(1)',
-        transition: 'transform 0.12s, background 0.12s',
+        boxShadow: pressed
+          ? '0 1px 4px rgba(0,0,0,0.06)'
+          : '0 2px 10px rgba(0,0,0,0.07)',
+        transform: pressed ? 'scale(0.98)' : 'scale(1)',
+        transition: 'transform 0.12s, box-shadow 0.12s, background 0.12s',
         animation: `fadeUp 0.4s ease ${Math.min(delay, 0.35)}s both`,
       }}
     >
       <p style={{
         fontSize: '17px',
-        lineHeight: '1.55',
-        color: '#1C1A18',
+        lineHeight: '1.6',
+        color: '#111111',
         margin: 0,
         fontFamily: "-apple-system, 'Helvetica Neue', sans-serif",
         fontWeight: '400',

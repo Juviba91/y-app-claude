@@ -8,6 +8,7 @@ import { isBlocked } from './utils/filter'
 import TabBar from './components/TabBar'
 import HomeScreen from './screens/HomeScreen'
 import SentencesScreen from './screens/SentencesScreen'
+import MuseumScreen from './screens/MuseumScreen'
 import ScanScreen from './screens/ScanScreen'
 import SettingsScreen from './screens/SettingsScreen'
 
@@ -18,6 +19,7 @@ export default function App() {
   const [language, setLanguage] = useState(() => localStorage.getItem('artlang') || 'es')
   const [history, setHistory] = useState(() => getHistory())
   const [navStack, setNavStack] = useState([])
+  const [museum, setMuseum] = useState(null)
   const [blockedMsg, setBlockedMsg] = useState(false)
 
   const currentNav = navStack[navStack.length - 1]
@@ -50,6 +52,7 @@ export default function App() {
   }
 
   const goBack = () => {
+    if (museum) { setMuseum(null); return }
     if (navStack.length <= 1) { setNavStack([]); setScreen('home') }
     else setNavStack(prev => prev.slice(0, -1))
   }
@@ -119,7 +122,7 @@ export default function App() {
             />
           )}
 
-          {tab === 'search' && screen === 'sentences' && currentNav && (
+          {tab === 'search' && screen === 'sentences' && currentNav && !museum && (
             <SentencesScreen
               key={currentNav.subject + topic + language}
               subject={currentNav.subject}
@@ -130,6 +133,15 @@ export default function App() {
               onBack={goBack}
               onTapSentence={goDeeper}
               isSentence={currentNav.type === 'sentence'}
+              onMuseum={setMuseum}
+            />
+          )}
+
+          {museum && (
+            <MuseumScreen
+              museum={museum}
+              onBack={() => setMuseum(null)}
+              onSearchArtwork={(name) => { setMuseum(null); goToWord(name, 'museum') }}
             />
           )}
 

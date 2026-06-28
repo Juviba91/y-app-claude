@@ -1,6 +1,7 @@
 const UI = {
   es: {
     // Home
+    appHero:           'El arte, explicado.',
     appTagline:        'Busca una obra, artista o movimiento',
     searchPlaceholder: 'La Joconda, Picasso, Impresionismo...',
     objective:         'Objetivo',
@@ -38,11 +39,16 @@ const UI = {
     clearHistory:     'Limpiar historial de búsqueda',
     aboutVersion:     'v2.0 · Impulsado por Claude AI',
     aboutDesc:        'Descubre el arte a tu ritmo. Escanea QRs en la galería, busca obras y artistas, y guarda tus favoritos.',
+    // Museum
+    museumVisitSite:  'Visitar sitio web',
+    museumCollection: 'Obras en esta colección',
+    museumIn:         'Disponible en',
     // Toast
     blockedMsg: '🚫 Contenido no permitido',
   },
   en: {
     // Home
+    appHero:           'Art, explained.',
     appTagline:        'Search artworks, artists or movements',
     searchPlaceholder: 'Mona Lisa, Picasso, Impressionism...',
     objective:         'Audience',
@@ -80,6 +86,10 @@ const UI = {
     clearHistory:     'Clear search history',
     aboutVersion:     'v2.0 · Powered by Claude AI',
     aboutDesc:        'Discover art at your own pace. Scan QR codes in the gallery, search artworks and artists, and save your favourites.',
+    // Museum
+    museumVisitSite:  'Visit website',
+    museumCollection: 'Works in this collection',
+    museumIn:         'Available at',
     // Toast
     blockedMsg: '🚫 Content not allowed',
   },

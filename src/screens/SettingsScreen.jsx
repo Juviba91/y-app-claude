@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { TOPICS, TOPIC_ACCENT, LANGUAGES } from '../constants'
+import { TOPICS, LANGUAGES } from '../constants'
 import { getCollection, removeFromCollection } from '../utils/collection'
 import { useLanguage } from '../contexts/language'
 import { t, topicLabel } from '../utils/i18n'
@@ -12,40 +12,52 @@ export default function SettingsScreen({ topic, setTopic, language, setLanguage,
     setCollection(removeFromCollection(name))
   }
 
+  const Card = ({ children, style = {} }) => (
+    <div style={{
+      background: '#FFFFFF', border: '1.5px solid #EBEBEB',
+      borderRadius: '20px', padding: '22px 24px', marginBottom: '12px',
+      ...style,
+    }}>
+      {children}
+    </div>
+  )
+
+  const SectionLabel = ({ children }) => (
+    <p style={{
+      fontFamily: '-apple-system, sans-serif', fontSize: '11px',
+      color: '#BBBBBB', fontWeight: '600', margin: '0 0 14px',
+      textTransform: 'uppercase', letterSpacing: '1.2px',
+    }}>
+      {children}
+    </p>
+  )
+
   return (
     <div style={{ flex: 1 }}>
-      <div style={{ padding: '48px 24px 24px' }}>
-        <div style={{
-          fontFamily: '-apple-system, sans-serif',
-          fontSize: '28px', color: '#1C1A18', fontWeight: '700',
+      <div style={{ padding: '56px 24px 28px' }}>
+        <h1 style={{
+          fontFamily: "-apple-system, 'Helvetica Neue', sans-serif",
+          fontSize: '42px', fontWeight: '800', letterSpacing: '-1.5px',
+          color: '#111111', margin: 0,
         }}>
           {t(lang, 'settingsTitle')}
-        </div>
+        </h1>
       </div>
 
       <div style={{ padding: '0 20px' }}>
 
         {/* Audience selector */}
-        <div style={{
-          background: '#FFFFFF', border: '1.5px solid #E8E5DF',
-          borderRadius: '20px', padding: '22px 24px', marginBottom: '12px',
-        }}>
-          <div style={{
-            fontFamily: '-apple-system, sans-serif', fontSize: '11px',
-            color: '#A0A09A', fontWeight: '600', marginBottom: '14px',
-            textTransform: 'uppercase', letterSpacing: '1px',
-          }}>
-            {t(lang, 'objective')}
-          </div>
+        <Card>
+          <SectionLabel>{t(lang, 'objective')}</SectionLabel>
           <div style={{ display: 'flex', gap: '8px' }}>
             {TOPICS.map(topicKey => {
               const active = topic === topicKey
               return (
                 <button key={topicKey} onClick={() => setTopic(topicKey)} style={{
-                  flex: 1, padding: '12px 0', borderRadius: '14px',
-                  border: active ? 'none' : '1.5px solid #E8E5DF',
-                  background: active ? TOPIC_ACCENT[topicKey] : '#FAFAF8',
-                  color: active ? '#fff' : '#6B6B6B',
+                  flex: 1, padding: '12px 0', borderRadius: '50px',
+                  border: active ? 'none' : '1.5px solid #EBEBEB',
+                  background: active ? '#111111' : 'transparent',
+                  color: active ? '#fff' : '#888888',
                   fontFamily: '-apple-system, sans-serif', fontSize: '12px',
                   fontWeight: '600', cursor: 'pointer', textAlign: 'center', transition: 'all 0.18s',
                 }}>
@@ -54,29 +66,20 @@ export default function SettingsScreen({ topic, setTopic, language, setLanguage,
               )
             })}
           </div>
-        </div>
+        </Card>
 
         {/* Language selector */}
-        <div style={{
-          background: '#FFFFFF', border: '1.5px solid #E8E5DF',
-          borderRadius: '20px', padding: '22px 24px', marginBottom: '12px',
-        }}>
-          <div style={{
-            fontFamily: '-apple-system, sans-serif', fontSize: '11px',
-            color: '#A0A09A', fontWeight: '600', marginBottom: '14px',
-            textTransform: 'uppercase', letterSpacing: '1px',
-          }}>
-            {t(lang, 'languageLabel')}
-          </div>
+        <Card>
+          <SectionLabel>{t(lang, 'languageLabel')}</SectionLabel>
           <div style={{ display: 'flex', gap: '8px' }}>
             {LANGUAGES.map(({ code, label }) => {
               const active = language === code
               return (
                 <button key={code} onClick={() => setLanguage(code)} style={{
-                  flex: 1, padding: '14px 0', borderRadius: '14px',
-                  border: active ? 'none' : '1.5px solid #E8E5DF',
-                  background: active ? '#1C1A18' : '#FAFAF8',
-                  color: active ? '#fff' : '#6B6B6B',
+                  flex: 1, padding: '14px 0', borderRadius: '50px',
+                  border: active ? 'none' : '1.5px solid #EBEBEB',
+                  background: active ? '#111111' : 'transparent',
+                  color: active ? '#fff' : '#888888',
                   fontFamily: '-apple-system, sans-serif', fontSize: '15px',
                   fontWeight: '600', cursor: 'pointer', textAlign: 'center', transition: 'all 0.18s',
                 }}>
@@ -85,23 +88,13 @@ export default function SettingsScreen({ topic, setTopic, language, setLanguage,
               )
             })}
           </div>
-        </div>
+        </Card>
 
         {/* Collection */}
-        <div style={{
-          background: '#FFFFFF', border: '1.5px solid #E8E5DF',
-          borderRadius: '20px', padding: '22px 24px', marginBottom: '12px',
-        }}>
-          <div style={{
-            fontFamily: '-apple-system, sans-serif', fontSize: '11px',
-            color: '#A0A09A', fontWeight: '600', marginBottom: '14px',
-            textTransform: 'uppercase', letterSpacing: '1px',
-          }}>
-            {t(lang, 'collectionTitle')} ({collection.length})
-          </div>
-
+        <Card>
+          <SectionLabel>{t(lang, 'collectionTitle')} ({collection.length})</SectionLabel>
           {collection.length === 0 ? (
-            <p style={{ fontFamily: '-apple-system, sans-serif', fontSize: '14px', color: '#A0A09A', lineHeight: '1.5' }}>
+            <p style={{ fontFamily: '-apple-system, sans-serif', fontSize: '14px', color: '#BBBBBB', lineHeight: '1.5', margin: 0 }}>
               {t(lang, 'collectionEmpty')}
             </p>
           ) : (
@@ -109,99 +102,87 @@ export default function SettingsScreen({ topic, setTopic, language, setLanguage,
               {collection.map((item) => (
                 <div key={item.name} style={{
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                  padding: '12px 14px', background: '#F8F6F1',
-                  borderRadius: '12px', border: '1px solid #E8E5DF',
+                  padding: '12px 14px', background: '#F8F8F8',
+                  borderRadius: '12px',
                 }}>
                   <button onClick={() => onSelectArtwork(item.name)} style={{
                     background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', flex: 1,
                   }}>
-                    <div style={{ fontFamily: '-apple-system, sans-serif', fontSize: '15px', color: '#1C1A18', fontWeight: '500' }}>
+                    <div style={{ fontFamily: '-apple-system, sans-serif', fontSize: '15px', color: '#111111', fontWeight: '500' }}>
                       {item.name}
                     </div>
-                    <div style={{ fontFamily: '-apple-system, sans-serif', fontSize: '11px', color: TOPIC_ACCENT[item.topic] || '#A0A09A', marginTop: '2px', fontWeight: '600' }}>
+                    <div style={{ fontFamily: '-apple-system, sans-serif', fontSize: '11px', color: '#BBBBBB', marginTop: '2px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                       {topicLabel(lang, item.topic)}
                     </div>
                   </button>
                   <button onClick={() => removeItem(item.name)} style={{
                     background: 'none', border: 'none', cursor: 'pointer',
-                    padding: '4px', borderRadius: '8px', color: '#C0C0BA', fontSize: '18px', lineHeight: 1,
+                    padding: '4px', borderRadius: '8px', color: '#CCCCCC', fontSize: '20px', lineHeight: 1,
                   }}>×</button>
                 </div>
               ))}
             </div>
           )}
-        </div>
+        </Card>
 
         {/* Stats */}
-        <div style={{
-          background: '#FFFFFF', border: '1.5px solid #E8E5DF',
-          borderRadius: '20px', padding: '22px 24px', marginBottom: '12px',
-        }}>
-          <div style={{
-            fontFamily: '-apple-system, sans-serif', fontSize: '11px',
-            color: '#A0A09A', fontWeight: '600', marginBottom: '14px',
-            textTransform: 'uppercase', letterSpacing: '1px',
-          }}>
-            {t(lang, 'statsTitle')}
-          </div>
+        <Card>
+          <SectionLabel>{t(lang, 'statsTitle')}</SectionLabel>
           <div style={{ display: 'flex', gap: '12px' }}>
             {[
               { value: history.length,    label: t(lang, 'statSearches') },
               { value: collection.length, label: t(lang, 'statSaved') },
             ].map(({ value, label }) => (
               <div key={label} style={{
-                flex: 1, background: '#F8F6F1', borderRadius: '14px',
-                border: '1px solid #E8E5DF', padding: '16px', textAlign: 'center',
+                flex: 1, background: '#F8F8F8', borderRadius: '14px',
+                padding: '16px', textAlign: 'center',
               }}>
-                <div style={{ fontSize: '30px', color: '#1C1A18', fontFamily: '-apple-system, sans-serif', fontWeight: '700' }}>
+                <div style={{ fontSize: '32px', color: '#111111', fontFamily: '-apple-system, sans-serif', fontWeight: '700' }}>
                   {value}
                 </div>
-                <div style={{ fontFamily: '-apple-system, sans-serif', fontSize: '11px', color: '#A0A09A', marginTop: '4px', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                <div style={{ fontFamily: '-apple-system, sans-serif', fontSize: '11px', color: '#BBBBBB', marginTop: '4px', textTransform: 'uppercase', letterSpacing: '1px' }}>
                   {label}
                 </div>
               </div>
             ))}
           </div>
-        </div>
+        </Card>
 
         {/* Clear history */}
-        <div style={{
-          background: '#FFFFFF', border: '1.5px solid #E8E5DF',
-          borderRadius: '20px', padding: '22px 24px', marginBottom: '12px',
-        }}>
+        <Card>
           <button
             onClick={onClearHistory}
             disabled={history.length === 0}
             style={{
-              width: '100%', padding: '14px', borderRadius: '14px',
-              border: `1px solid ${history.length > 0 ? '#FFD5D5' : '#E8E5DF'}`,
-              background: history.length > 0 ? '#FFF0F0' : '#F8F6F1',
-              color: history.length > 0 ? '#C0392B' : '#C0C0BA',
+              width: '100%', padding: '14px', borderRadius: '50px',
+              border: `1.5px solid ${history.length > 0 ? '#DDDDDD' : '#EBEBEB'}`,
+              background: 'transparent',
+              color: history.length > 0 ? '#888888' : '#CCCCCC',
               fontFamily: '-apple-system, sans-serif', fontSize: '15px',
               fontWeight: '600', cursor: history.length > 0 ? 'pointer' : 'default',
             }}
           >
             {t(lang, 'clearHistory')}
           </button>
-        </div>
+        </Card>
 
         {/* About */}
-        <div style={{
-          background: '#FFFFFF', border: '1.5px solid #E8E5DF',
-          borderRadius: '20px', padding: '22px 24px', marginBottom: '32px',
-        }}>
-          <div style={{ marginBottom: '10px' }}>
-            <div style={{ fontFamily: '-apple-system, sans-serif', fontSize: '17px', color: '#1C1A18', fontWeight: '700' }}>
-              The Y App
-            </div>
-            <div style={{ fontFamily: '-apple-system, sans-serif', fontSize: '12px', color: '#A0A09A', marginTop: '2px' }}>
-              {t(lang, 'aboutVersion')}
+        <Card style={{ marginBottom: '32px' }}>
+          <div style={{ marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <img src="/logo.png" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />
+            <div>
+              <div style={{ fontFamily: '-apple-system, sans-serif', fontSize: '15px', color: '#111111', fontWeight: '700' }}>
+                The Y App
+              </div>
+              <div style={{ fontFamily: '-apple-system, sans-serif', fontSize: '12px', color: '#BBBBBB', marginTop: '1px' }}>
+                {t(lang, 'aboutVersion')}
+              </div>
             </div>
           </div>
-          <p style={{ fontFamily: '-apple-system, sans-serif', fontSize: '14px', color: '#8A8680', lineHeight: '1.6' }}>
+          <p style={{ fontFamily: '-apple-system, sans-serif', fontSize: '14px', color: '#888888', lineHeight: '1.6', margin: 0 }}>
             {t(lang, 'aboutDesc')}
           </p>
-        </div>
+        </Card>
 
       </div>
     </div>
