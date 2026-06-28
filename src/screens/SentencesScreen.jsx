@@ -4,6 +4,7 @@ import { callClaude, buildPrompt, parseSentences } from '../api/claude'
 import { addToCollection, removeFromCollection, isInCollection } from '../utils/collection'
 import { getCached, setCache } from '../utils/cache'
 import { track } from '../utils/analyticsDB'
+import { getMuseumByArtwork } from '../utils/museum'
 import { useLanguage } from '../contexts/language'
 import { t, topicLabel } from '../utils/i18n'
 import SentenceCard from '../components/SentenceCard'
@@ -11,17 +12,25 @@ import SkeletonCards from '../components/SkeletonCards'
 import Breadcrumb from '../components/Breadcrumb'
 import { BookmarkIcon } from '../components/Icons'
 
-export default function SentencesScreen({ subject, word, topic, language, trail, onBack, onTapSentence, isSentence }) {
+export default function SentencesScreen({ subject, word, topic, language, trail, onBack, onTapSentence, isSentence, onMuseum }) {
   const [items, setItems] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [saved, setSaved] = useState(false)
+  const [museum, setMuseum] = useState(null)
   const lang = useLanguage()
   const accent = TOPIC_ACCENT[topic]
 
   useEffect(() => {
     setSaved(isInCollection(word))
   }, [word])
+
+  // Look up if this artwork is linked to a museum page (only on root searches)
+  useEffect(() => {
+    if (isSentence) return
+    setMuseum(null)
+    getMuseumByArtwork(word).then(m => setMuseum(m || null))
+  }, [word, isSentence])
 
   useEffect(() => {
     let cancelled = false
@@ -117,6 +126,40 @@ export default function SentencesScreen({ subject, word, topic, language, trail,
       </div>
 
       <div style={{ padding: '0 20px' }}>
+        {museum && onMuseum && (
+          <button
+            onClick={() => onMuseum(museum)}
+            style={{
+              width: '100%', background: '#F7F7F7', border: '1px solid #EBEBEB',
+              borderRadius: '16px', padding: '14px 18px', marginBottom: '16px',
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              cursor: 'pointer', textAlign: 'left',
+            }}
+          >
+            <div>
+              <div style={{
+                fontFamily: '-apple-system, sans-serif', fontSize: '11px',
+                color: '#999', fontWeight: '600', textTransform: 'uppercase',
+                letterSpacing: '1px', marginBottom: '4px',
+              }}>
+                {t(lang, 'museumIn')}
+              </div>
+              <div style={{
+                fontFamily: "-apple-system, 'Helvetica Neue', sans-serif",
+                fontSize: '15px', fontWeight: '600', color: '#1C1A18',
+              }}>
+                {museum.name}
+              </div>
+              <div style={{
+                fontFamily: '-apple-system, sans-serif', fontSize: '12px', color: '#999', marginTop: '2px',
+              }}>
+                {museum.city} · {museum.country}
+              </div>
+            </div>
+            <span style={{ fontSize: '18px', color: '#C0C0C0' }}>→</span>
+          </button>
+        )}
+
         {loading && <SkeletonCards />}
         {error && (
           <div style={{
