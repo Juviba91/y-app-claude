@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Y App · Pitch Museos</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    background: #111;
+    color: #1C1A18;
+    overflow: hidden;
+    height: 100vh;
+  }
+
+  .deck {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+  }
+
+  .slide {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0; left: 0;
+    background: #fff;
+    padding: 80px 100px;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .slide.active { display: flex; }
+
+  /* NAV */
+  .nav {
+    position: fixed;
+    bottom: 32px; right: 40px;
+    display: flex; gap: 12px; align-items: center;
+    z-index: 100;
+  }
+  .nav button {
+    background: #1C1A18; color: #fff;
+    border: none; border-radius: 50%;
+    width: 44px; height: 44px; font-size: 18px;
+    cursor: pointer; transition: opacity .15s;
+  }
+  .nav button:hover { opacity: .7; }
+  .nav button:disabled { opacity: .2; cursor: default; }
+  .counter {
+    font-size: 12px; color: #888;
+    font-family: -apple-system, sans-serif;
+    min-width: 40px; text-align: center;
+  }
+
+  /* PROGRESS BAR */
+  .progress {
+    position: fixed;
+    top: 0; left: 0; height: 3px;
+    background: #1C1A18;
+    transition: width .3s ease;
+    z-index: 100;
+  }
+
+  /* LABELS */
+  .label {
+    font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 2px;
+    color: #999; margin-bottom: 20px;
+  }
+
+  /* TYPOGRAPHY */
+  h1 { font-size: 64px; font-weight: 800; line-height: 1.05; letter-spacing: -2px; }
+  h2 { font-size: 48px; font-weight: 800; line-height: 1.1; letter-spacing: -1.5px; }
+  h3 { font-size: 32px; font-weight: 700; line-height: 1.2; letter-spacing: -0.5px; }
+  p  { font-size: 20px; line-height: 1.6; color: #444; }
+  .big { font-size: 28px; line-height: 1.5; color: #333; font-weight: 400; }
+
+  /* ACCENT */
+  .accent { color: #E67E22; }
+  .black  { color: #1C1A18; }
+
+  /* COVER */
+  .cover { background: #1C1A18 !important; color: #fff; }
+  .cover h1 { color: #fff; font-size: 72px; }
+  .cover .label { color: #666; }
+  .cover .sub { color: #aaa; font-size: 22px; margin-top: 24px; font-weight: 300; }
+
+  /* TWO COL */
+  .two-col { display: flex; gap: 80px; align-items: flex-start; margin-top: 40px; }
+  .col { flex: 1; }
+
+  /* STATS */
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px; margin-top: 40px; }
+  .stat {
+    background: #F7F7F7; border-radius: 20px;
+    padding: 32px; display: flex; flex-direction: column; gap: 8px;
+  }
+  .stat-num { font-size: 52px; font-weight: 800; letter-spacing: -2px; color: #1C1A18; }
+  .stat-label { font-size: 14px; color: #888; font-weight: 500; }
+
+  /* PILL LIST */
+  .pill-list { display: flex; flex-direction: column; gap: 16px; margin-top: 32px; }
+  .pill {
+    background: #F7F7F7; border-radius: 16px;
+    padding: 20px 28px; display: flex; align-items: center; gap: 20px;
+    font-size: 18px; font-weight: 500; color: #1C1A18;
+  }
+  .pill .icon { font-size: 28px; width: 48px; text-align: center; }
+
+  /* PHONE MOCKUP */
+  .phone {
+    width: 220px; height: 420px; background: #1C1A18;
+    border-radius: 36px; padding: 24px 16px;
+    display: flex; flex-direction: column; gap: 12px;
+    box-shadow: 0 40px 80px rgba(0,0,0,.2);
+    flex-shrink: 0;
+  }
+  .phone-screen { background: #fff; border-radius: 24px; flex: 1; padding: 16px; overflow: hidden; }
+  .phone-line { height: 10px; background: #F0F0F0; border-radius: 6px; margin-bottom: 8px; }
+  .phone-line.dark { background: #1C1A18; width: 70%; }
+  .phone-line.short { width: 50%; }
+  .phone-card { background: #F7F7F7; border-radius: 12px; padding: 10px 12px; margin-bottom: 8px; }
+  .phone-card .l { height: 8px; background: #E0E0E0; border-radius: 4px; margin-bottom: 6px; }
+  .phone-card .l.short { width: 60%; }
+
+  /* HIGHLIGHT BOX */
+  .highlight {
+    background: #1C1A18; color: #fff;
+    border-radius: 24px; padding: 40px 48px;
+    margin-top: 40px;
+  }
+  .highlight h3 { color: #fff; font-size: 28px; margin-bottom: 12px; }
+  .highlight p  { color: #aaa; font-size: 17px; }
+
+  /* THREE CARDS */
+  .card-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; margin-top: 40px; }
+  .card {
+    border: 1.5px solid #EBEBEB; border-radius: 20px;
+    padding: 28px 24px;
+  }
+  .card .icon { font-size: 36px; margin-bottom: 16px; }
+  .card h4 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+  .card p  { font-size: 14px; color: #777; line-height: 1.5; }
+
+  /* CLOSING */
+  .closing { background: #E67E22 !important; }
+  .closing h2 { color: #fff; font-size: 56px; }
+  .closing .label { color: rgba(255,255,255,.6); }
+  .closing .sub { color: rgba(255,255,255,.85); font-size: 22px; margin-top: 24px; }
+  .closing .cta {
+    display: inline-block; margin-top: 40px;
+    background: #fff; color: #E67E22;
+    border-radius: 16px; padding: 18px 36px;
+    font-size: 18px; font-weight: 700;
+    text-decoration: none;
+  }
+
+  /* DIVIDER */
+  hr { border: none; border-top: 1.5px solid #F0F0F0; margin: 32px 0; }
+
+  /* QUOTE */
+  .quote {
+    border-left: 4px solid #E67E22;
+    padding: 8px 0 8px 28px;
+    margin-top: 32px;
+  }
+  .quote p { font-size: 24px; font-style: italic; color: #333; }
+  .quote .author { font-size: 13px; color: #999; margin-top: 8px; }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<div class="deck" id="deck">
+
+  <!-- 1. COVER -->
+  <div class="slide cover active">
+    <div class="label">Propuesta de colaboración · 2026</div>
+    <h1>The Y App</h1>
+    <div class="sub">La guía de arte con IA que tus visitantes<br>llevan en el bolsillo.</div>
+  </div>
+
+  <!-- 2. EL PROBLEMA -->
+  <div class="slide">
+    <div class="label">El problema</div>
+    <h2>El 70% de los visitantes<br>sale sin <span class="accent">entender</span><br>lo que ha visto.</h2>
+    <div class="two-col" style="margin-top:40px;">
+      <div class="col">
+        <p>Los carteles son breves. Las audioguías, caras y lentas. La mayoría de la gente mira las obras en silencio y sigue andando.</p>
+        <p style="margin-top:16px;">Se pierden la historia, la técnica, el contexto. Y contigo se pierde una oportunidad de conexión real.</p>
+      </div>
+      <div class="col">
+        <div class="quote">
+          <p>"Fui al Prado, era precioso, pero no entendí casi nada."</p>
+          <div class="author">Visitante tipo, encuesta post-visita</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. LA SOLUCIÓN -->
+  <div class="slide">
+    <div class="label">La solución</div>
+    <div class="two-col" style="align-items:center;">
+      <div class="col">
+        <h2>Una guía inteligente.<br>Instantánea.<br><span class="accent">Personalizada.</span></h2>
+        <p style="margin-top:24px;">El visitante busca una obra o escanea el QR del cartel. En segundos recibe 15 datos precisos explicados a su nivel — niño, curioso o experto.</p>
+        <p style="margin-top:16px;">Sin app de pago. Sin audioguía. Solo el móvil que ya tiene en la mano.</p>
+      </div>
+      <div class="phone">
+        <div class="phone-screen">
+          <div class="phone-line dark"></div>
+          <div class="phone-line short" style="margin-bottom:16px;"></div>
+          <div class="phone-card">
+            <div class="l"></div><div class="l short"></div>
+          </div>
+          <div class="phone-card">
+            <div class="l"></div><div class="l short"></div>
+          </div>
+          <div class="phone-card">
+            <div class="l"></div><div class="l short"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. CÓMO FUNCIONA -->
+  <div class="slide">
+    <div class="label">Cómo funciona</div>
+    <h3>Tres pasos. Cero fricción.</h3>
+    <div class="pill-list">
+      <div class="pill">
+        <span class="icon">🔍</span>
+        <div>
+          <div style="font-weight:700;margin-bottom:4px;">Busca o escanea</div>
+          <div style="font-size:15px;color:#777;">El visitante escribe el nombre de la obra o escanea el QR del cartel</div>
+        </div>
+      </div>
+      <div class="pill">
+        <span class="icon">✨</span>
+        <div>
+          <div style="font-weight:700;margin-bottom:4px;">IA explica al instante</div>
+          <div style="font-size:15px;color:#777;">Claude (Anthropic) genera 15 datos precisos adaptados al nivel elegido</div>
+        </div>
+      </div>
+      <div class="pill">
+        <span class="icon">🏛️</span>
+        <div>
+          <div style="font-weight:700;margin-bottom:4px;">Ve la página de tu museo</div>
+          <div style="font-size:15px;color:#777;">Si la obra está en vuestra colección, aparece un enlace directo a vuestra página oficial</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. TRES NIVELES -->
+  <div class="slide">
+    <div class="label">Personalización</div>
+    <h2>La misma obra.<br>Tres audiencias.</h2>
+    <div class="card-grid">
+      <div class="card">
+        <div class="icon">🧒</div>
+        <h4>Para Niños</h4>
+        <p>Lenguaje sencillo y cercano, pensado para 8-12 años. El arte como aventura.</p>
+      </div>
+      <div class="card" style="border-color:#E67E22;">
+        <div class="icon">👤</div>
+        <h4>Amateur</h4>
+        <p>Contexto histórico, técnica básica y movimientos artísticos. Para el visitante curioso.</p>
+      </div>
+      <div class="card">
+        <div class="icon">🎓</div>
+        <h4>Profesional</h4>
+        <p>Terminología técnica, análisis profundo, fuentes. Para expertos y estudiantes de arte.</p>
+      </div>
+    </div>
+    <p style="margin-top:28px;font-size:16px;color:#999;">Disponible en Español e Inglés. Más idiomas próximamente.</p>
+  </div>
+
+  <!-- 6. PÁGINA DE MUSEO -->
+  <div class="slide">
+    <div class="label">Tu espacio en la app</div>
+    <div class="two-col" style="align-items:center;">
+      <div class="col">
+        <h2>Tu museo tiene<br>su propia <span class="accent">página</span><br>dentro de la app.</h2>
+        <div class="pill-list" style="margin-top:28px;">
+          <div class="pill" style="padding:14px 20px;">
+            <span class="icon" style="font-size:20px;">📍</span>
+            <span style="font-size:16px;">Nombre, ciudad, descripción</span>
+          </div>
+          <div class="pill" style="padding:14px 20px;">
+            <span class="icon" style="font-size:20px;">🔗</span>
+            <span style="font-size:16px;">Link directo a tu web oficial</span>
+          </div>
+          <div class="pill" style="padding:14px 20px;">
+            <span class="icon" style="font-size:20px;">🖼️</span>
+            <span style="font-size:16px;">Tu colección curada de obras</span>
+          </div>
+        </div>
+        <p style="margin-top:20px;font-size:15px;color:#999;">Aparece automáticamente cuando alguien busca una obra de vuestra colección.</p>
+      </div>
+      <div class="phone">
+        <div class="phone-screen">
+          <div style="height:8px;background:#F0F0F0;border-radius:4px;width:40%;margin-bottom:14px;"></div>
+          <div style="height:28px;background:#1C1A18;border-radius:8px;width:85%;margin-bottom:10px;"></div>
+          <div style="height:14px;background:#F0F0F0;border-radius:4px;width:60%;margin-bottom:20px;"></div>
+          <div style="height:36px;background:#1C1A18;border-radius:10px;width:70%;margin-bottom:18px;"></div>
+          <div style="height:10px;background:#F0F0F0;border-radius:4px;margin-bottom:8px;"></div>
+          <div class="phone-card"><div class="l"></div><div class="l short"></div></div>
+          <div class="phone-card"><div class="l"></div><div class="l short"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. ANALYTICS -->
+  <div class="slide">
+    <div class="label">Para el museo</div>
+    <h2>Datos reales<br>de tus visitantes.</h2>
+    <div class="stat-grid">
+      <div class="stat">
+        <div class="stat-num accent">Top 10</div>
+        <div class="stat-label">Obras más buscadas este mes</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">ES / EN</div>
+        <div class="stat-label">Distribución de idiomas</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num accent">Nivel</div>
+        <div class="stat-label">% niños vs amateur vs experto</div>
+      </div>
+    </div>
+    <div class="highlight">
+      <h3>Inteligencia que no tenías antes</h3>
+      <p>Cada búsqueda queda registrada: qué obra, a qué hora, en qué idioma, a qué nivel de profundidad. Tú ves los datos; el visitante permanece anónimo.</p>
+    </div>
+  </div>
+
+  <!-- 8. PILOTO -->
+  <div class="slide">
+    <div class="label">Propuesta</div>
+    <h2>Piloto sin riesgo.</h2>
+    <div class="two-col" style="margin-top:40px;">
+      <div class="col">
+        <div class="pill-list">
+          <div class="pill">
+            <span class="icon">✅</span>
+            <div>
+              <div style="font-weight:700;margin-bottom:4px;">Página oficial en la app</div>
+              <div style="font-size:15px;color:#777;">Creada y mantenida por nosotros con la info que nos facilites</div>
+            </div>
+          </div>
+          <div class="pill">
+            <span class="icon">✅</span>
+            <div>
+              <div style="font-weight:700;margin-bottom:4px;">Colección curada</div>
+              <div style="font-size:15px;color:#777;">Tus obras enlazadas directamente para tus visitantes</div>
+            </div>
+          </div>
+          <div class="pill">
+            <span class="icon">✅</span>
+            <div>
+              <div style="font-weight:700;margin-bottom:4px;">Informe mensual de datos</div>
+              <div style="font-size:15px;color:#777;">Comportamiento real de visita basado en búsquedas</div>
+            </div>
+          </div>
+          <div class="pill">
+            <span class="icon">✅</span>
+            <div>
+              <div style="font-weight:700;margin-bottom:4px;">QR listos para imprimir</div>
+              <div style="font-size:15px;color:#777;">Para colocar junto a vuestras obras o en recepción</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col" style="display:flex;flex-direction:column;justify-content:center;">
+        <div style="background:#F7F7F7;border-radius:24px;padding:40px;text-align:center;">
+          <div style="font-size:13px;color:#999;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px;">Tarifa piloto</div>
+          <div style="font-size:64px;font-weight:800;letter-spacing:-2px;color:#1C1A18;">€0</div>
+          <div style="font-size:15px;color:#888;margin-top:8px;">Durante los primeros 3 meses.<br>Solo nos das feedback.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. CIERRE -->
+  <div class="slide closing">
+    <div class="label">Siguiente paso</div>
+    <h2>¿Empezamos<br>la semana que viene?</h2>
+    <div class="sub">Solo necesitamos 30 minutos de llamada<br>y la lista de obras que quieres incluir.</div>
+    <a href="mailto:hola@theyapp.com" class="cta">Contáctanos →</a>
+  </div>
+
+</div>
+
+<!-- Navigation -->
+<div class="nav">
+  <button id="prev" onclick="prev()" disabled>←</button>
+  <span class="counter" id="counter">1 / 9</span>
+  <button id="next" onclick="next()">→</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide')
+  const total  = slides.length
+  let current  = 0
+
+  function show(n) {
+    slides[current].classList.remove('active')
+    current = Math.max(0, Math.min(n, total - 1))
+    slides[current].classList.add('active')
+    document.getElementById('counter').textContent = `${current + 1} / ${total}`
+    document.getElementById('prev').disabled = current === 0
+    document.getElementById('next').disabled = current === total - 1
+    document.getElementById('progress').style.width = `${((current + 1) / total) * 100}%`
+  }
+
+  function next() { show(current + 1) }
+  function prev() { show(current - 1) }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ') next()
+    if (e.key === 'ArrowLeft') prev()
+  })
+
+  show(0)
+</script>
+
+</body>
+</html>
