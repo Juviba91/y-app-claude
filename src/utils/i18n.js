@@ -43,6 +43,15 @@ const UI = {
     museumVisitSite:  'Visitar sitio web',
     museumCollection: 'Obras en esta colección',
     museumIn:         'Disponible en',
+    // Feedback
+    tabFeedback:       'Feedback',
+    feedbackTitle:     '¿Qué piensas?',
+    feedbackSubtitle:  'Cuéntanos qué mejorarías, qué falla o qué te gusta.',
+    feedbackPlaceholder: 'Tu opinión, sugerencia o problema...',
+    feedbackSend:      'Enviar',
+    feedbackSending:   'Enviando...',
+    feedbackSent:      '✓ ¡Gracias!',
+    feedbackError:     'No se pudo enviar. Inténtalo de nuevo.',
     // Toast
     blockedMsg: '🚫 Contenido no permitido',
   },
@@ -90,6 +99,15 @@ const UI = {
     museumVisitSite:  'Visit website',
     museumCollection: 'Works in this collection',
     museumIn:         'Available at',
+    // Feedback
+    tabFeedback:       'Feedback',
+    feedbackTitle:     'What do you think?',
+    feedbackSubtitle:  'Tell us what you\'d improve, what\'s broken, or what you love.',
+    feedbackPlaceholder: 'Your opinion, suggestion or issue...',
+    feedbackSend:      'Send',
+    feedbackSending:   'Sending...',
+    feedbackSent:      '✓ Thanks!',
+    feedbackError:     'Failed to send. Try again.',
     // Toast
     blockedMsg: '🚫 Content not allowed',
   },

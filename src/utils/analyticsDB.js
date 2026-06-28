@@ -1,21 +1,16 @@
-import { track as vercelTrack } from '@vercel/analytics/react'
-import { supabase } from './supabaseClient'
+import posthog from 'posthog-js'
 
-const SESSION_ID = Math.random().toString(36).slice(2)
+const phKey = import.meta.env.VITE_POSTHOG_KEY
+if (phKey) {
+  posthog.init(phKey, {
+    api_host: import.meta.env.VITE_POSTHOG_HOST || 'https://eu.i.posthog.com',
+    capture_pageview: true,
+    person_profiles: 'never',
+  })
+}
+
+export const SESSION_ID = Math.random().toString(36).slice(2)
 
 export function track(event, props = {}) {
-  vercelTrack(event, props)
-
-  if (!supabase) return
-  supabase.from('art_analytics').insert({
-    event,
-    session_id: SESSION_ID,
-    language: props.language ?? null,
-    artwork: props.artwork ?? null,
-    topic: props.topic ?? null,
-    source: props.source ?? null,
-    properties: props,
-  }).then(({ error }) => {
-    if (error) console.warn('[analytics]', error.message)
-  })
+  if (phKey) posthog.capture(event, props)
 }
