@@ -11,6 +11,7 @@ import SentencesScreen from './screens/SentencesScreen'
 import MuseumScreen from './screens/MuseumScreen'
 import ScanScreen from './screens/ScanScreen'
 import SettingsScreen from './screens/SettingsScreen'
+import FeedbackScreen from './screens/FeedbackScreen'
 
 export default function App() {
   const [tab, setTab]       = useState('search')
@@ -147,6 +148,10 @@ export default function App() {
 
           {tab === 'scan' && (
             <ScanScreen onScan={(w) => goToWord(w, 'qr_scan')} />
+          )}
+
+          {tab === 'feedback' && (
+            <FeedbackScreen currentArtwork={navStack[0]?.word || null} />
           )}
 
           {tab === 'settings' && (

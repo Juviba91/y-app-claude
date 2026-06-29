@@ -36,6 +36,16 @@ export function SettingsIcon({ active }) {
   )
 }
 
+export function FeedbackIcon({ active }) {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke={active ? ACTIVE : INACTIVE} strokeWidth="2"
+      strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    </svg>
+  )
+}
+
 export function BookmarkIcon({ filled }) {
   return (
     <svg width="22" height="22" viewBox="0 0 24 24" fill={filled ? '#2563EB' : 'none'}

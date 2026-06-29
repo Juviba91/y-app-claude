@@ -1,4 +1,4 @@
-import { SearchIcon, ScanIcon, SettingsIcon } from './Icons'
+import { SearchIcon, ScanIcon, SettingsIcon, FeedbackIcon } from './Icons'
 import { useLanguage } from '../contexts/language'
 import { t } from '../utils/i18n'
 
@@ -8,6 +8,7 @@ export default function TabBar({ activeTab, onTab }) {
   const TABS = [
     { id: 'search',   label: t(lang, 'tabSearch'),   Icon: SearchIcon },
     { id: 'scan',     label: t(lang, 'tabScan'),     Icon: ScanIcon },
+    { id: 'feedback', label: t(lang, 'tabFeedback'), Icon: FeedbackIcon },
     { id: 'settings', label: t(lang, 'tabSettings'), Icon: SettingsIcon },
   ]
 
@@ -31,7 +32,7 @@ export default function TabBar({ activeTab, onTab }) {
               style={{
                 background: 'none', border: 'none', cursor: 'pointer',
                 display: 'flex', flexDirection: 'column',
-                alignItems: 'center', gap: '4px', padding: '4px 20px',
+                alignItems: 'center', gap: '4px', padding: '4px 12px',
               }}
             >
               <Icon active={active} />
