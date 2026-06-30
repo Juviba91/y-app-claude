@@ -20,17 +20,17 @@ export default function HomeScreen({ onSearch, topic, setTopic, history, onHisto
   return (
     <div style={{ flex: 1 }}>
       {/* Hero */}
-      <div style={{ padding: '56px 24px 36px' }}>
+      <div style={{ padding: '56px 24px 36px', textAlign: 'center' }}>
         <img
           src="/logo.png"
           alt="The Y App"
-          style={{ width: '88px', height: '88px', objectFit: 'contain', marginBottom: '24px', display: 'block' }}
+          style={{ width: '108px', height: '108px', objectFit: 'contain', marginBottom: '28px', display: 'block', margin: '0 auto 28px' }}
         />
         <h1 style={{
           fontFamily: "-apple-system, 'Helvetica Neue', sans-serif",
-          fontSize: '42px', fontWeight: '800', lineHeight: '1.08',
+          fontSize: '38px', fontWeight: '800', lineHeight: '1.1',
           letterSpacing: '-1.5px', color: '#111111',
-          margin: '0 0 12px',
+          margin: '0 0 10px',
         }}>
           {t(lang, 'appHero')}
         </h1>
