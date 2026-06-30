@@ -13,13 +13,14 @@ export default function SentenceCard({ text, onTap, delay = 0 }) {
       onMouseLeave={() => setPressed(false)}
       style={{
         background: pressed ? '#F5F5F5' : '#FFFFFF',
+        border: '1.5px solid #EBEBEB',
         borderRadius: '18px',
         padding: '22px 24px',
         marginBottom: '10px',
         cursor: 'pointer',
         boxShadow: pressed
-          ? '0 1px 4px rgba(0,0,0,0.06)'
-          : '0 2px 10px rgba(0,0,0,0.07)',
+          ? 'none'
+          : '0 1px 6px rgba(0,0,0,0.04)',
         transform: pressed ? 'scale(0.98)' : 'scale(1)',
         transition: 'transform 0.12s, box-shadow 0.12s, background 0.12s',
         animation: `fadeUp 0.4s ease ${Math.min(delay, 0.35)}s both`,

@@ -43,6 +43,9 @@ const UI = {
     museumVisitSite:  'Visitar sitio web',
     museumCollection: 'Obras en esta colección',
     museumIn:         'Disponible en',
+    // Trending
+    trendingSubtitle:  'Lo que más se busca en el mundo del arte',
+    trendingEmpty:     'No se pudieron cargar los trending.',
     // Feedback
     tabFeedback:       'Feedback',
     feedbackTitle:     '¿Qué piensas?',
@@ -99,6 +102,9 @@ const UI = {
     museumVisitSite:  'Visit website',
     museumCollection: 'Works in this collection',
     museumIn:         'Available at',
+    // Trending
+    trendingSubtitle:  'Most searched in the art world',
+    trendingEmpty:     'Could not load trending topics.',
     // Feedback
     tabFeedback:       'Feedback',
     feedbackTitle:     'What do you think?',

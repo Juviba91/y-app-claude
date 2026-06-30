@@ -24,7 +24,7 @@ export default function HomeScreen({ onSearch, topic, setTopic, history, onHisto
         <img
           src="/logo.png"
           alt="The Y App"
-          style={{ width: '68px', height: '68px', objectFit: 'contain', marginBottom: '22px', display: 'block' }}
+          style={{ width: '88px', height: '88px', objectFit: 'contain', marginBottom: '24px', display: 'block' }}
         />
         <h1 style={{
           fontFamily: "-apple-system, 'Helvetica Neue', sans-serif",

@@ -130,7 +130,7 @@ export default function ScanScreen({ onScan }) {
 
         {status === 'scanning' && (
           <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <div style={{ width: '200px', height: '200px', border: '2px solid #111111', borderRadius: '20px', animation: 'scanPulse 2s ease-in-out infinite' }} />
+            <div style={{ width: '200px', height: '200px', border: '2px solid rgba(255,255,255,0.7)', borderRadius: '20px', animation: 'scanPulse 2s ease-in-out infinite' }} />
           </div>
         )}
       </div>

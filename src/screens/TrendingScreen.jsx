@@ -1,25 +1,30 @@
 import { useEffect } from 'react'
+import { useLanguage } from '../contexts/language'
+import { t } from '../utils/i18n'
 import SkeletonCards from '../components/SkeletonCards'
 
 export default function TrendingScreen({ onSelect, topic, trending, loading, onLoad }) {
+  const lang = useLanguage()
+
   useEffect(() => {
     if (!trending.length && !loading) onLoad()
   }, [])
 
   return (
     <div style={{ flex: 1 }}>
-      <div style={{ padding: '40px 24px 24px', textAlign: 'center' }}>
-        <div style={{
-          fontFamily: '-apple-system, sans-serif',
-          fontSize: '28px', color: '#fff', fontWeight: '700',
+      <div style={{ padding: '56px 24px 28px' }}>
+        <h1 style={{
+          fontFamily: "-apple-system, 'Helvetica Neue', sans-serif",
+          fontSize: '42px', fontWeight: '800', lineHeight: '1.08',
+          letterSpacing: '-1.5px', color: '#111111', margin: '0 0 8px',
         }}>
           Trending
-        </div>
+        </h1>
         <p style={{
           fontFamily: '-apple-system, sans-serif',
-          fontSize: '15px', color: '#666', marginTop: '8px',
+          fontSize: '16px', color: '#888888', margin: 0,
         }}>
-          What the world is talking about
+          {t(lang, 'trendingSubtitle')}
         </p>
       </div>
 
@@ -31,20 +36,20 @@ export default function TrendingScreen({ onSelect, topic, trending, loading, onL
             key={i}
             onClick={() => onSelect(item.word)}
             style={{
-              background: '#fff', borderRadius: '20px',
-              padding: '22px 24px', marginBottom: '12px', cursor: 'pointer',
-              animation: `fadeUp 0.4s ease ${i * 0.07}s both`,
+              background: '#FFFFFF', border: '1.5px solid #EBEBEB',
+              borderRadius: '20px', padding: '22px 24px', marginBottom: '10px',
+              cursor: 'pointer', animation: `fadeUp 0.4s ease ${i * 0.07}s both`,
             }}
           >
             <div style={{
-              fontSize: '20px', color: '#111',
-              fontFamily: '-apple-system, sans-serif',
-              fontWeight: '600', marginBottom: '6px',
+              fontSize: '19px', color: '#111111',
+              fontFamily: "-apple-system, 'Helvetica Neue', sans-serif",
+              fontWeight: '700', marginBottom: '6px',
             }}>
               {item.word}
             </div>
             <p style={{
-              fontSize: '14px', color: '#888',
+              fontSize: '14px', color: '#888888',
               lineHeight: '1.5', margin: 0,
               fontFamily: '-apple-system, sans-serif',
             }}>
@@ -55,11 +60,12 @@ export default function TrendingScreen({ onSelect, topic, trending, loading, onL
 
         {!loading && trending.length === 0 && (
           <div style={{
-            background: '#1C1C1E', borderRadius: '20px', padding: '24px',
-            color: '#666', fontFamily: '-apple-system, sans-serif',
+            background: '#F8F8F8', border: '1.5px solid #EBEBEB',
+            borderRadius: '20px', padding: '24px',
+            color: '#BBBBBB', fontFamily: '-apple-system, sans-serif',
             fontSize: '15px', textAlign: 'center',
           }}>
-            Could not load trending topics.
+            {t(lang, 'trendingEmpty')}
           </div>
         )}
       </div>
