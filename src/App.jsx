@@ -89,11 +89,7 @@ export default function App() {
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-<<<<<<< HEAD
-  const activeTab = tab
-=======
   const activeTab = screen === 'sentences' ? 'search' : tab
->>>>>>> origin/claude/art-gallery-ui-redesign-p4qnto
 
   return (
     <LanguageContext.Provider value={language}>
