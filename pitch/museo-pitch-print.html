@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
+
+  .slide {
+    width: 254mm; height: 143mm;
+    padding: 18mm 22mm;
+    display: flex; flex-direction: column; justify-content: center;
+    page-break-after: always;
+    position: relative; overflow: hidden;
+  }
+
+  .label {
+    font-size: 7.5pt; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 2px;
+    color: #999; margin-bottom: 8mm;
+  }
+
+  h1 { font-size: 32pt; font-weight: 800; line-height: 1.05; letter-spacing: -1px; color: #1C1A18; }
+  h2 { font-size: 22pt; font-weight: 800; line-height: 1.1; letter-spacing: -0.5px; color: #1C1A18; }
+  p  { font-size: 10pt; line-height: 1.6; color: #555; }
+
+  /* SLIDE 1 — COVER */
+  .cover { background: #1C1A18; }
+  .cover .label { color: #555; }
+  .cover h1 { color: #fff; margin-bottom: 6mm; }
+  .cover .sub { font-size: 13pt; color: #aaa; line-height: 1.4; }
+
+  /* SLIDE 2 — PROBLEMA */
+  .quote {
+    border-left: 3px solid #E67E22;
+    padding: 3mm 6mm; margin-top: 5mm;
+    font-size: 9.5pt; font-style: italic; color: #444; line-height: 1.5;
+  }
+  .quote .author { font-size: 8pt; color: #999; font-style: normal; margin-top: 2mm; }
+
+  /* TWO COL */
+  .two { display: flex; gap: 12mm; align-items: flex-start; margin-top: 6mm; }
+  .col { flex: 1; }
+
+  /* PILLS */
+  .pills { display: flex; flex-direction: column; gap: 3mm; margin-top: 5mm; }
+  .pill {
+    background: #F7F7F7; border-radius: 8pt;
+    padding: 3.5mm 5mm; display: flex; align-items: center; gap: 5mm;
+  }
+  .pill .ico { font-size: 14pt; width: 18pt; text-align: center; }
+  .pill-title { font-size: 9.5pt; font-weight: 700; color: #1C1A18; }
+  .pill-desc  { font-size: 8pt; color: #888; margin-top: 0.5mm; }
+
+  /* CARD GRID */
+  .cards { display: flex; gap: 5mm; margin-top: 5mm; }
+  .card {
+    flex: 1; border: 1.2pt solid #E8E8E8; border-radius: 8pt;
+    padding: 5mm 5mm;
+  }
+  .card .ico  { font-size: 16pt; margin-bottom: 3mm; }
+  .card h4    { font-size: 10pt; font-weight: 700; color: #1C1A18; margin-bottom: 2mm; }
+  .card p     { font-size: 8pt; color: #777; line-height: 1.4; }
+
+  /* STAT GRID */
+  .stats { display: flex; gap: 5mm; margin-top: 5mm; }
+  .stat {
+    flex: 1; background: #F7F7F7; border-radius: 8pt;
+    padding: 5mm;
+  }
+  .stat-num   { font-size: 22pt; font-weight: 800; color: #1C1A18; }
+  .stat-num.o { color: #E67E22; }
+  .stat-lbl   { font-size: 8pt; color: #888; margin-top: 1mm; }
+
+  /* DARK BOX */
+  .dark-box {
+    background: #1C1A18; border-radius: 8pt;
+    padding: 5mm 7mm; margin-top: 4mm;
+  }
+  .dark-box h3 { font-size: 11pt; color: #fff; margin-bottom: 2mm; }
+  .dark-box p  { font-size: 8.5pt; color: #aaa; line-height: 1.5; }
+
+  /* PILOTO */
+  .pilot-wrap { display: flex; gap: 10mm; align-items: center; margin-top: 5mm; }
+  .price-box {
+    background: #F7F7F7; border-radius: 10pt;
+    padding: 7mm; text-align: center; min-width: 45mm;
+  }
+  .price-lbl { font-size: 7pt; color: #999; text-transform: uppercase; letter-spacing: 1px; }
+  .price-num { font-size: 36pt; font-weight: 800; color: #1C1A18; line-height: 1; margin: 2mm 0; }
+  .price-sub { font-size: 8pt; color: #888; line-height: 1.4; }
+
+  /* CLOSING */
+  .closing { background: #E67E22; }
+  .closing .label { color: rgba(255,255,255,.6); }
+  .closing h2 { color: #fff; font-size: 28pt; }
+  .closing .sub { font-size: 11pt; color: rgba(255,255,255,.85); margin-top: 5mm; line-height: 1.5; }
+  .cta {
+    display: inline-block; margin-top: 6mm;
+    background: #fff; color: #E67E22;
+    border-radius: 8pt; padding: 3mm 8mm;
+    font-size: 10pt; font-weight: 700;
+  }
+
+  /* page number */
+  .num {
+    position: absolute; bottom: 6mm; right: 8mm;
+    font-size: 7pt; color: #ccc;
+  }
+</style>
+</head>
+<body>
+
+<!-- 1. COVER -->
+<div class="slide cover">
+  <div class="label">Propuesta de colaboración · 2026</div>
+  <h1>The Y App</h1>
+  <div class="sub">La guía de arte con IA que tus visitantes<br>llevan en el bolsillo.</div>
+</div>
+
+<!-- 2. EL PROBLEMA -->
+<div class="slide">
+  <div class="label">El problema</div>
+  <h2>El 70% de los visitantes sale<br>sin entender lo que ha visto.</h2>
+  <div class="two">
+    <div class="col">
+      <p>Los carteles son breves. Las audioguías, caras y lentas. La mayoría de la gente mira las obras en silencio y sigue andando.<br><br>Se pierden la historia, la técnica, el contexto — y contigo se pierde una oportunidad de conexión real.</p>
+    </div>
+    <div class="col">
+      <div class="quote">
+        "Fui al Prado, era precioso, pero no entendí casi nada."
+        <div class="author">Visitante tipo · encuesta post-visita</div>
+      </div>
+    </div>
+  </div>
+  <div class="num">2</div>
+</div>
+
+<!-- 3. LA SOLUCIÓN -->
+<div class="slide">
+  <div class="label">La solución</div>
+  <h2>Una guía inteligente.<br>Instantánea. Personalizada.</h2>
+  <p style="margin-top:5mm;">El visitante busca una obra o escanea el QR del cartel. En segundos recibe 15 datos precisos explicados a su nivel — niño, curioso o experto. Sin app de pago. Sin audioguía. Solo el móvil que ya tiene en la mano.</p>
+  <div class="num">3</div>
+</div>
+
+<!-- 4. CÓMO FUNCIONA -->
+<div class="slide">
+  <div class="label">Cómo funciona</div>
+  <h2>Tres pasos. Cero fricción.</h2>
+  <div class="pills">
+    <div class="pill"><span class="ico">🔍</span><div><div class="pill-title">Busca o escanea</div><div class="pill-desc">El visitante escribe el nombre de la obra o escanea el QR del cartel</div></div></div>
+    <div class="pill"><span class="ico">✨</span><div><div class="pill-title">IA explica al instante</div><div class="pill-desc">Claude (Anthropic) genera 15 datos precisos adaptados al nivel elegido</div></div></div>
+    <div class="pill"><span class="ico">🏛️</span><div><div class="pill-title">Ve la página de tu museo</div><div class="pill-desc">Si la obra está en vuestra colección, aparece un enlace directo a vuestra página oficial</div></div></div>
+  </div>
+  <div class="num">4</div>
+</div>
+
+<!-- 5. TRES NIVELES -->
+<div class="slide">
+  <div class="label">Personalización</div>
+  <h2>La misma obra. Tres audiencias.</h2>
+  <div class="cards">
+    <div class="card"><div class="ico">🧒</div><h4>Para Niños</h4><p>Lenguaje sencillo y cercano para 8-12 años. El arte como aventura.</p></div>
+    <div class="card" style="border-color:#E67E22"><div class="ico">👤</div><h4>Amateur</h4><p>Contexto histórico y movimientos artísticos para el visitante curioso.</p></div>
+    <div class="card"><div class="ico">🎓</div><h4>Profesional</h4><p>Terminología técnica y análisis profundo para expertos y estudiantes.</p></div>
+  </div>
+  <p style="margin-top:4mm;font-size:8pt;color:#999;">Disponible en Español e Inglés. Más idiomas próximamente.</p>
+  <div class="num">5</div>
+</div>
+
+<!-- 6. PÁGINA DEL MUSEO -->
+<div class="slide">
+  <div class="label">Tu espacio en la app</div>
+  <h2>Tu museo tiene su propia página<br>dentro de la app.</h2>
+  <div class="pills" style="margin-top:5mm;">
+    <div class="pill"><span class="ico">📍</span><div><div class="pill-title">Nombre, ciudad y descripción</div></div></div>
+    <div class="pill"><span class="ico">🔗</span><div><div class="pill-title">Link directo a tu web oficial</div></div></div>
+    <div class="pill"><span class="ico">🖼️</span><div><div class="pill-title">Tu colección curada de obras — cada una tappable</div></div></div>
+  </div>
+  <p style="margin-top:4mm;font-size:8.5pt;color:#888;">Aparece automáticamente cuando alguien busca una obra de vuestra colección.</p>
+  <div class="num">6</div>
+</div>
+
+<!-- 7. ANALYTICS -->
+<div class="slide">
+  <div class="label">Para el museo</div>
+  <h2>Datos reales de tus visitantes.</h2>
+  <div class="stats">
+    <div class="stat"><div class="stat-num o">Top 10</div><div class="stat-lbl">Obras más buscadas este mes</div></div>
+    <div class="stat"><div class="stat-num">ES/EN</div><div class="stat-lbl">Distribución por idioma</div></div>
+    <div class="stat"><div class="stat-num o">Nivel</div><div class="stat-lbl">% niños / amateur / experto</div></div>
+  </div>
+  <div class="dark-box">
+    <h3>Inteligencia que no tenías antes</h3>
+    <p>Cada búsqueda queda registrada: qué obra, a qué hora, en qué idioma, a qué nivel. Tú ves los datos; el visitante permanece anónimo.</p>
+  </div>
+  <div class="num">7</div>
+</div>
+
+<!-- 8. PILOTO -->
+<div class="slide">
+  <div class="label">Propuesta</div>
+  <h2>Piloto sin riesgo.</h2>
+  <div class="pilot-wrap">
+    <div class="pills" style="flex:1;margin-top:0;">
+      <div class="pill"><span class="ico">✅</span><div><div class="pill-title">Página oficial en la app</div><div class="pill-desc">Creada y mantenida por nosotros</div></div></div>
+      <div class="pill"><span class="ico">✅</span><div><div class="pill-title">Colección curada de obras</div><div class="pill-desc">Tus obras enlazadas directamente</div></div></div>
+      <div class="pill"><span class="ico">✅</span><div><div class="pill-title">Informe mensual de datos</div><div class="pill-desc">Comportamiento real de visita</div></div></div>
+      <div class="pill"><span class="ico">✅</span><div><div class="pill-title">QR listos para imprimir</div><div class="pill-desc">Para colocar junto a las obras</div></div></div>
+    </div>
+    <div class="price-box">
+      <div class="price-lbl">Tarifa piloto</div>
+      <div class="price-num">€0</div>
+      <div class="price-sub">Durante los<br>primeros 3 meses.<br>Solo nos das<br>feedback.</div>
+    </div>
+  </div>
+  <div class="num">8</div>
+</div>
+
+<!-- 9. CIERRE -->
+<div class="slide closing">
+  <div class="label">Siguiente paso</div>
+  <h2>¿Empezamos<br>la semana que viene?</h2>
+  <div class="sub">Solo necesitamos 30 minutos de llamada<br>y la lista de obras que quieres incluir.</div>
+  <div class="cta">Contáctanos →</div>
+</div>
+
+</body>
+</html>

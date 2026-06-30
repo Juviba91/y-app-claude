@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; background: #fff; }
+
+  .slide {
+    width: 254mm; height: 143mm;
+    display: flex;
+    page-break-after: always;
+    position: relative; overflow: hidden;
+    background: #fff;
+  }
+
+  /* ── TYPOGRAPHY ── */
+  h1 {
+    font-size: 40pt; font-weight: 800; color: #111;
+    line-height: 1.0; letter-spacing: -1.5px;
+  }
+  h2 {
+    font-size: 22pt; font-weight: 800; color: #111;
+    line-height: 1.1; letter-spacing: -0.5px;
+  }
+  h3 {
+    font-size: 13pt; font-weight: 700; color: #111;
+    line-height: 1.2;
+  }
+  p { font-size: 10pt; line-height: 1.6; color: #555; }
+
+  /* ── PHONE MOCKUP ── */
+  .phone {
+    width: 44mm; height: 95mm;
+    border: 2.5pt solid #111;
+    border-radius: 9pt;
+    overflow: hidden;
+    background: #f8f8f8;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .phone img {
+    width: 100%; height: auto;
+    display: block;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  .phone-lg {
+    width: 52mm; height: 112mm;
+    border: 2.5pt solid #111;
+    border-radius: 9pt;
+    overflow: hidden;
+    background: #f8f8f8;
+    flex-shrink: 0;
+  }
+  .phone-lg img {
+    width: 100%; height: auto;
+    display: block;
+  }
+
+  /* ── STEP PILL ── */
+  .step { display: flex; align-items: flex-start; gap: 3.5mm; margin-bottom: 3.5mm; }
+  .step-num {
+    width: 6mm; height: 6mm; border-radius: 50%;
+    background: #111; color: #fff;
+    font-size: 7pt; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 0.5mm;
+  }
+  .step-text { font-size: 9.5pt; color: #444; line-height: 1.4; }
+
+  /* ── FEATURE ROW ── */
+  .feat { display: flex; align-items: flex-start; gap: 3mm; padding: 2.5mm 0; border-bottom: 1pt solid #EEEEEE; }
+  .feat-check { font-size: 9pt; font-weight: 800; color: #111; flex-shrink: 0; padding-top: 0.5mm; }
+  .feat-text { font-size: 9pt; color: #444; line-height: 1.4; }
+
+  /* ── AUDIENCE CARDS ── */
+  .aud-cards { display: flex; gap: 3.5mm; }
+  .aud {
+    flex: 1; border: 1.5pt solid #DEDEDE; border-radius: 7pt;
+    padding: 4mm;
+  }
+  .aud.main { border-color: #111; border-width: 2pt; }
+  .aud-icon { font-size: 14pt; margin-bottom: 1.5mm; }
+  .aud-name { font-size: 9pt; font-weight: 700; color: #111; margin-bottom: 1mm; }
+  .aud-desc { font-size: 7.5pt; color: #888; line-height: 1.4; }
+
+  /* ── STAT ── */
+  .big-stat { font-size: 80pt; font-weight: 800; color: #111; line-height: 1; letter-spacing: -3px; }
+
+  /* ── QUOTE ── */
+  .quote {
+    border-left: 2.5pt solid #111;
+    padding: 2.5mm 5mm;
+    font-size: 10pt; font-style: italic; color: #333; line-height: 1.6;
+    margin: 4mm 0;
+  }
+  .quote-author { font-size: 7.5pt; color: #999; font-style: normal; margin-top: 2mm; }
+
+  /* ── DARK SLIDE ── */
+  .dark { background: #1C1A18; }
+  .dark h2 { color: #fff; }
+  .dark p { color: #AAA; }
+  .dark .feat-check { color: #fff; }
+  .dark .feat-text { color: #AAA; }
+  .dark .feat { border-color: #333; }
+
+  /* ── CTA BUTTON ── */
+  .cta {
+    display: inline-block; margin-top: 5mm;
+    background: #fff; color: #111;
+    border-radius: 7pt; padding: 2.5mm 7mm;
+    font-size: 9.5pt; font-weight: 700;
+  }
+
+  /* ── DIVIDER ── */
+  .divider { width: 8mm; height: 2pt; background: #111; margin: 3.5mm 0; }
+  .divider-white { width: 8mm; height: 2pt; background: #fff; margin: 3.5mm 0; }
+
+  /* ── PRICE ── */
+  .price { font-size: 72pt; font-weight: 800; color: #fff; line-height: 1; letter-spacing: -3px; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     SLIDE 1 · COVER
+════════════════════════════════════════════════ -->
+<div class="slide" style="align-items: stretch;">
+
+  <!-- LEFT: logo + text -->
+  <div style="flex: 1.1; padding: 18mm 14mm 18mm 20mm; display: flex; flex-direction: column; justify-content: center;">
+    <img src="../public/logo.png" alt="Y" style="width: 14mm; height: auto; margin-bottom: 7mm; filter: invert(0);" />
+    <h1>The Y App</h1>
+    <div class="divider" style="margin-top: 5mm;"></div>
+    <p style="font-size: 13pt; color: #444; line-height: 1.4; max-width: 95mm; margin-top: 1mm;">
+      La guía de arte con IA que tus visitantes llevan en el bolsillo.
+    </p>
+    <p style="font-size: 8.5pt; color: #BBB; margin-top: 8mm;">Propuesta de colaboración · 2026</p>
+  </div>
+
+  <!-- RIGHT: phone mockup filling height -->
+  <div style="width: 70mm; background: #F5F5F5; display: flex; align-items: center; justify-content: center;">
+    <div style="width: 52mm; height: 112mm; border: 2.5pt solid #111; border-radius: 9pt; overflow: hidden; background: #fff;">
+      <img src="screen-home.png" style="width: 100%; height: auto; display: block;" />
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     SLIDE 2 · EL PROBLEMA
+════════════════════════════════════════════════ -->
+<div class="slide" style="align-items: center; padding: 14mm 22mm;">
+
+  <!-- LEFT col -->
+  <div style="flex: 1; padding-right: 14mm;">
+    <div class="big-stat">70%</div>
+    <h2 style="margin-top: 3mm; max-width: 80mm;">
+      de los visitantes sale sin entender lo que ha visto.
+    </h2>
+  </div>
+
+  <!-- RIGHT col -->
+  <div style="flex: 1; border-left: 1pt solid #E8E8E8; padding-left: 14mm;">
+    <p>Los carteles son breves. Las audioguías, caras y lentas. La mayoría mira las obras en silencio y sigue andando.</p>
+    <div class="quote" style="margin-top: 5mm;">
+      "Fui al Prado, era precioso, pero no entendí casi nada."
+      <div class="quote-author">Visitante típico · encuesta post-visita</div>
+    </div>
+    <p style="margin-top: 0;">Se pierden la historia, la técnica, el contexto — y contigo se pierde una oportunidad de conexión real.</p>
+  </div>
+
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     SLIDE 3 · ASÍ FUNCIONA
+════════════════════════════════════════════════ -->
+<div class="slide" style="align-items: center; padding: 14mm 20mm;">
+
+  <!-- LEFT: text + steps -->
+  <div style="flex: 1; padding-right: 12mm;">
+    <h2>Una guía inteligente.<br>Instantánea. Personalizada.</h2>
+    <div class="divider"></div>
+    <p style="margin-bottom: 5mm; font-size: 9.5pt;">Sin app de pago. Sin audioguía. Solo el móvil que el visitante ya lleva en la mano.</p>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-text"><strong>Busca o escanea</strong><br>Escribe el nombre de la obra o escanea el QR del cartel</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-text"><strong>IA explica al instante</strong><br>15 datos precisos adaptados al nivel elegido (niño, curioso, experto)</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-text"><strong>Descubre tu museo</strong><br>Enlace directo a la página oficial de tu institución</div>
+    </div>
+  </div>
+
+  <!-- RIGHT: two phones -->
+  <div style="display: flex; gap: 5mm; align-items: flex-end;">
+    <div class="phone">
+      <img src="screen-home.png" />
+    </div>
+    <div class="phone" style="height: 105mm;">
+      <img src="screen-search.png" />
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     SLIDE 4 · EL RESULTADO REAL
+════════════════════════════════════════════════ -->
+<div class="slide" style="align-items: center; padding: 14mm 20mm;">
+
+  <!-- LEFT: phone -->
+  <div class="phone-lg" style="margin-right: 14mm;">
+    <img src="screen-result.png" />
+  </div>
+
+  <!-- RIGHT: content -->
+  <div style="flex: 1;">
+    <h2>15 datos precisos.<br>En segundos.</h2>
+    <div class="divider"></div>
+    <p style="margin-bottom: 5mm; font-size: 9.5pt;">El mismo cuadro, explicado a tres audiencias distintas en tiempo real.</p>
+
+    <div class="aud-cards">
+      <div class="aud">
+        <div class="aud-icon">🧒</div>
+        <div class="aud-name">Para Niños</div>
+        <div class="aud-desc">Lenguaje sencillo. El arte como aventura para 8-12 años.</div>
+      </div>
+      <div class="aud main">
+        <div class="aud-icon">👤</div>
+        <div class="aud-name">Amateur</div>
+        <div class="aud-desc">Contexto histórico y movimientos artísticos.</div>
+      </div>
+      <div class="aud">
+        <div class="aud-icon">🎓</div>
+        <div class="aud-name">Profesional</div>
+        <div class="aud-desc">Terminología técnica y análisis profundo.</div>
+      </div>
+    </div>
+
+    <p style="margin-top: 4mm; font-size: 8pt; color: #BBB;">Disponible en Español e Inglés · Más idiomas próximamente</p>
+  </div>
+
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     SLIDE 5 · TU MUSEO EN LA APP
+════════════════════════════════════════════════ -->
+<div class="slide" style="align-items: center; padding: 14mm 22mm;">
+
+  <!-- LEFT: text + features -->
+  <div style="flex: 1; padding-right: 14mm;">
+    <h2>Tu museo tiene su propia página dentro de la app.</h2>
+    <div class="divider"></div>
+    <div class="feat">
+      <span class="feat-check">✓</span>
+      <span class="feat-text">Nombre, ciudad, descripción y enlace a tu web oficial</span>
+    </div>
+    <div class="feat">
+      <span class="feat-check">✓</span>
+      <span class="feat-text">Tu colección curada — cada obra es tappable y genera contenido</span>
+    </div>
+    <div class="feat">
+      <span class="feat-check">✓</span>
+      <span class="feat-text">Aparece automáticamente cuando alguien busca una obra tuya</span>
+    </div>
+    <div class="feat">
+      <span class="feat-check">✓</span>
+      <span class="feat-text">Datos reales: top obras buscadas, idiomas y tipo de audiencia</span>
+    </div>
+    <div class="feat" style="border-bottom: none;">
+      <span class="feat-check">✓</span>
+      <span class="feat-text">QR listos para imprimir junto a cada obra</span>
+    </div>
+  </div>
+
+  <!-- RIGHT: divider + stat boxes -->
+  <div style="width: 80mm; border-left: 1pt solid #E8E8E8; padding-left: 14mm;">
+    <h3 style="margin-bottom: 5mm; color: #888; font-weight: 600; font-size: 10pt;">Inteligencia que no tenías antes</h3>
+    <div style="display: flex; flex-direction: column; gap: 3mm;">
+      <div style="background: #F7F7F7; border-radius: 7pt; padding: 4mm 5mm;">
+        <div style="font-size: 16pt; font-weight: 800; color: #111; line-height: 1;">Top 10</div>
+        <div style="font-size: 7.5pt; color: #888; margin-top: 1mm;">Obras más buscadas este mes</div>
+      </div>
+      <div style="background: #F7F7F7; border-radius: 7pt; padding: 4mm 5mm;">
+        <div style="font-size: 16pt; font-weight: 800; color: #111; line-height: 1;">ES / EN</div>
+        <div style="font-size: 7.5pt; color: #888; margin-top: 1mm;">Distribución por idioma</div>
+      </div>
+      <div style="background: #F7F7F7; border-radius: 7pt; padding: 4mm 5mm;">
+        <div style="font-size: 16pt; font-weight: 800; color: #111; line-height: 1;">Nivel</div>
+        <div style="font-size: 7.5pt; color: #888; margin-top: 1mm;">% niños / amateur / experto</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     SLIDE 6 · PILOTO
+════════════════════════════════════════════════ -->
+<div class="slide dark" style="align-items: center; padding: 14mm 22mm;">
+
+  <!-- LEFT: price -->
+  <div style="padding-right: 14mm; border-right: 1pt solid #333; text-align: center; width: 70mm; flex-shrink: 0;">
+    <p style="font-size: 7.5pt; color: #555; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 3mm;">Tarifa piloto</p>
+    <div class="price">€0</div>
+    <p style="margin-top: 3mm; font-size: 9pt; color: #777; line-height: 1.5;">Durante los primeros<br>3 meses.<br>Solo nos das feedback.</p>
+  </div>
+
+  <!-- RIGHT: features + CTA -->
+  <div style="flex: 1; padding-left: 14mm;">
+    <h2 style="margin-bottom: 4mm;">Piloto sin riesgo.<br>¿Empezamos?</h2>
+    <div class="feat">
+      <span class="feat-check">✓</span>
+      <span class="feat-text">Página oficial en la app, creada y mantenida por nosotros</span>
+    </div>
+    <div class="feat">
+      <span class="feat-check">✓</span>
+      <span class="feat-text">Colección curada de obras enlazadas directamente</span>
+    </div>
+    <div class="feat">
+      <span class="feat-check">✓</span>
+      <span class="feat-text">QR listos para imprimir y colocar junto a las obras</span>
+    </div>
+    <div class="feat" style="border-color: #333;">
+      <span class="feat-check">✓</span>
+      <span class="feat-text">Informe mensual con datos reales de tus visitantes</span>
+    </div>
+    <div class="cta">Solo necesitamos 30 minutos de llamada →</div>
+  </div>
+
+</div>
+
+</body>
+</html>
