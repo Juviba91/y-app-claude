@@ -1,10 +1,7 @@
 import { useEffect } from 'react'
-import { TOPIC_ACCENT } from '../constants'
 import SkeletonCards from '../components/SkeletonCards'
 
 export default function TrendingScreen({ onSelect, topic, trending, loading, onLoad }) {
-  const accent = TOPIC_ACCENT[topic]
-
   useEffect(() => {
     if (!trending.length && !loading) onLoad()
   }, [])

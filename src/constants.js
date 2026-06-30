@@ -1,9 +1,9 @@
 export const TOPICS = ['Para Niños', 'Amateur', 'Profesional']
 
 export const TOPIC_ACCENT = {
-  'Para Niños':  '#E74C3C',
-  'Amateur':     '#E67E22',
-  'Profesional': '#2563EB',
+  'Para Niños':  '#111111',
+  'Amateur':     '#111111',
+  'Profesional': '#111111',
 }
 
 export const LANGUAGES = [

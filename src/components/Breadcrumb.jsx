@@ -1,4 +1,3 @@
-import { TOPIC_ACCENT } from '../constants'
 import { useLanguage } from '../contexts/language'
 import { t } from '../utils/i18n'
 

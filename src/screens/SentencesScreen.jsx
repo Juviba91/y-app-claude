@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { TOPIC_ACCENT } from '../constants'
 import { callClaude, buildPrompt, parseSentences } from '../api/claude'
 import { addToCollection, removeFromCollection, isInCollection } from '../utils/collection'
 import { getCached, setCache } from '../utils/cache'
@@ -19,7 +18,6 @@ export default function SentencesScreen({ subject, word, topic, language, trail,
   const [saved, setSaved] = useState(false)
   const [museum, setMuseum] = useState(null)
   const lang = useLanguage()
-  const accent = TOPIC_ACCENT[topic]
 
   useEffect(() => {
     setSaved(isInCollection(word))
@@ -117,7 +115,7 @@ export default function SentencesScreen({ subject, word, topic, language, trail,
         {isSentence && word && (
           <div style={{
             fontFamily: '-apple-system, sans-serif', fontSize: '12px',
-            color: '#A0A09A', paddingLeft: '17px', marginTop: '4px',
+            color: '#BBBBBB', paddingLeft: '17px', marginTop: '4px',
           }}>
             {t(lang, 'aboutLabel')} {word}
           </div>
@@ -147,7 +145,7 @@ export default function SentencesScreen({ subject, word, topic, language, trail,
               </div>
               <div style={{
                 fontFamily: "-apple-system, 'Helvetica Neue', sans-serif",
-                fontSize: '15px', fontWeight: '600', color: '#1C1A18',
+                fontSize: '15px', fontWeight: '600', color: '#111111',
               }}>
                 {museum.name}
               </div>

@@ -159,7 +159,7 @@ export default function ScanScreen({ onScan }) {
       {/* Divider */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px', margin: '24px 0' }}>
         <div style={{ flex: 1, height: '1px', background: '#EBEBEB' }} />
-        <span style={{ fontFamily: '-apple-system, sans-serif', fontSize: '12px', color: '#A0A09A', fontWeight: '500' }}>
+        <span style={{ fontFamily: '-apple-system, sans-serif', fontSize: '12px', color: '#BBBBBB', fontWeight: '500' }}>
           {t(lang, 'orType')}
         </span>
         <div style={{ flex: 1, height: '1px', background: '#EBEBEB' }} />
@@ -188,7 +188,7 @@ export default function ScanScreen({ onScan }) {
           disabled={!manualInput.trim()}
           style={{
             width: '40px', height: '40px', borderRadius: '12px', border: 'none',
-            background: manualInput.trim() ? '#111111' : '#EDEAE4',
+            background: manualInput.trim() ? '#111111' : '#F0F0F0',
             color: manualInput.trim() ? '#fff' : '#BBBBBB',
             cursor: manualInput.trim() ? 'pointer' : 'default',
             display: 'flex', alignItems: 'center', justifyContent: 'center',

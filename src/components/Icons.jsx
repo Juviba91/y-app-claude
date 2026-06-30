@@ -1,5 +1,5 @@
-const ACTIVE = '#1C1A18'
-const INACTIVE = '#A0A09A'
+const ACTIVE = '#111111'
+const INACTIVE = '#BBBBBB'
 
 export function SearchIcon({ active }) {
   return (
@@ -48,8 +48,8 @@ export function FeedbackIcon({ active }) {
 
 export function BookmarkIcon({ filled }) {
   return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill={filled ? '#2563EB' : 'none'}
-      stroke={filled ? '#2563EB' : '#A0A09A'} strokeWidth="2"
+    <svg width="22" height="22" viewBox="0 0 24 24" fill={filled ? '#111111' : 'none'}
+      stroke={filled ? '#111111' : '#BBBBBB'} strokeWidth="2"
       strokeLinecap="round" strokeLinejoin="round">
       <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
     </svg>

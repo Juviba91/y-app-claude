@@ -24,7 +24,7 @@ export default function MuseumScreen({ museum: stub, onBack, onSearchArtwork }) 
         <button onClick={onBack} style={{
           background: 'none', border: 'none', cursor: 'pointer',
           fontFamily: '-apple-system, sans-serif', fontSize: '14px',
-          color: '#A0A09A', padding: '0', display: 'flex', alignItems: 'center', gap: '4px',
+          color: '#BBBBBB', padding: '0', display: 'flex', alignItems: 'center', gap: '4px',
         }}>
           ← {t(lang, 'back')}
         </button>
@@ -33,7 +33,7 @@ export default function MuseumScreen({ museum: stub, onBack, onSearchArtwork }) 
       {loading ? (
         <MuseumSkeleton />
       ) : !museum ? (
-        <div style={{ padding: '40px 20px', color: '#A0A09A', textAlign: 'center',
+        <div style={{ padding: '40px 20px', color: '#BBBBBB', textAlign: 'center',
           fontFamily: '-apple-system, sans-serif', fontSize: '14px' }}>
           No disponible
         </div>
@@ -55,7 +55,7 @@ export default function MuseumScreen({ museum: stub, onBack, onSearchArtwork }) 
 
             <h1 style={{
               fontFamily: "-apple-system, 'Helvetica Neue', sans-serif",
-              fontSize: '32px', fontWeight: '800', color: '#1C1A18',
+              fontSize: '32px', fontWeight: '800', color: '#111111',
               lineHeight: '1.1', marginBottom: '16px', letterSpacing: '-0.5px',
             }}>
               {museum.name}
@@ -76,7 +76,7 @@ export default function MuseumScreen({ museum: stub, onBack, onSearchArtwork }) 
                 onClick={() => track('museum_website_click', { source: museum.slug })}
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: '6px',
-                  background: '#1C1A18', color: '#fff',
+                  background: '#111111', color: '#fff',
                   borderRadius: '12px', padding: '12px 20px',
                   fontFamily: '-apple-system, sans-serif', fontSize: '14px',
                   fontWeight: '600', textDecoration: 'none',
@@ -93,7 +93,7 @@ export default function MuseumScreen({ museum: stub, onBack, onSearchArtwork }) 
           <div style={{ padding: '24px 20px' }}>
             <h2 style={{
               fontFamily: '-apple-system, sans-serif', fontSize: '13px',
-              fontWeight: '700', color: '#A0A09A',
+              fontWeight: '700', color: '#BBBBBB',
               textTransform: 'uppercase', letterSpacing: '1.5px', marginBottom: '16px',
             }}>
               {t(lang, 'museumCollection')}
@@ -116,7 +116,7 @@ export default function MuseumScreen({ museum: stub, onBack, onSearchArtwork }) 
                 >
                   <span style={{
                     fontFamily: "-apple-system, 'Helvetica Neue', sans-serif",
-                    fontSize: '15px', fontWeight: '500', color: '#1C1A18',
+                    fontSize: '15px', fontWeight: '500', color: '#111111',
                   }}>
                     {name}
                   </span>
