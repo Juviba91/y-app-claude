@@ -1,4 +1,4 @@
-import { SearchIcon, ScanIcon, SettingsIcon, FeedbackIcon } from './Icons'
+import { SearchIcon, ScanIcon, SettingsIcon, FeedbackIcon, TrendingIcon } from './Icons'
 import { useLanguage } from '../contexts/language'
 import { t } from '../utils/i18n'
 
@@ -7,6 +7,7 @@ export default function TabBar({ activeTab, onTab }) {
 
   const TABS = [
     { id: 'search',   label: t(lang, 'tabSearch'),   Icon: SearchIcon },
+    { id: 'trending', label: t(lang, 'tabTrending'), Icon: TrendingIcon },
     { id: 'scan',     label: t(lang, 'tabScan'),     Icon: ScanIcon },
     { id: 'feedback', label: t(lang, 'tabFeedback'), Icon: FeedbackIcon },
     { id: 'settings', label: t(lang, 'tabSettings'), Icon: SettingsIcon },

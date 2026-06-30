@@ -12,6 +12,8 @@ import MuseumScreen from './screens/MuseumScreen'
 import ScanScreen from './screens/ScanScreen'
 import SettingsScreen from './screens/SettingsScreen'
 import FeedbackScreen from './screens/FeedbackScreen'
+import TrendingScreen from './screens/TrendingScreen'
+import { TRENDING } from './data/trending'
 
 export default function App() {
   const [tab, setTab]       = useState('search')
@@ -143,6 +145,15 @@ export default function App() {
               museum={museum}
               onBack={() => setMuseum(null)}
               onSearchArtwork={(name) => { setMuseum(null); goToWord(name, 'museum') }}
+            />
+          )}
+
+          {tab === 'trending' && (
+            <TrendingScreen
+              trending={TRENDING}
+              loading={false}
+              onSelect={(w) => goToWord(w, 'trending')}
+              onLoad={() => {}}
             />
           )}
 

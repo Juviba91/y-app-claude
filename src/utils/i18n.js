@@ -10,6 +10,7 @@ const UI = {
     topics: { 'Para Niños': 'Para Niños', 'Amateur': 'Amateur', 'Profesional': 'Profesional' },
     // Tabs
     tabSearch:   'Buscar',
+    tabTrending: 'Trending',
     tabScan:     'Escanear',
     tabSettings: 'Ajustes',
     // Scan
@@ -69,6 +70,7 @@ const UI = {
     topics: { 'Para Niños': 'For Kids', 'Amateur': 'Amateur', 'Profesional': 'Professional' },
     // Tabs
     tabSearch:   'Search',
+    tabTrending: 'Trending',
     tabScan:     'Scan',
     tabSettings: 'Settings',
     // Scan
